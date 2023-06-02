@@ -22,7 +22,7 @@ public class TestPolymophism {
 		
 		TestInterface bit;
 		TestInterface bit2;
-		kh2.khSpecial();
+		//kh2.khSpecial();
 		kh2.method1();
 		
 		

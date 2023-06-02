@@ -33,7 +33,9 @@ public abstract class Driver {
 //	}
 	public void buy(Car c) {
 		if(money > c.getPrice()) {
-			//((Avante)c).moveAvante();
+			if(c instanceof Avante) {
+				((Avante)c).moveCar();
+			}
 			if(c instanceof Sonata) {
 				//((Sonata)c).moveSonata();
 				c.defaultFun();
