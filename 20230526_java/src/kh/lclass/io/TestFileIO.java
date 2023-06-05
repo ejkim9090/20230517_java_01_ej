@@ -1,18 +1,88 @@
 package kh.lclass.io;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import kh.lclass.exception.UserException;
+import kh.lclass.oop.sample.Person;
 
 public class TestFileIO {
+	public void testFileOutputStreamObject() {
+		// 파일에 사람들 자료를 저장함.
+		Person p1 = new Person("홍길동", 23, '남',5);
+		Person p2 = new Person("영희", 27, 'F',2);
+	
+		String filePath="D:/data2/test/aaa.txt";
+		FileOutputStream fos = null;  // 기반스트림
+		BufferedOutputStream bos = null;
+		ObjectOutputStream oos = null;  // 보조스트림
+		try {
+			fos = new FileOutputStream(filePath);
+			bos = new BufferedOutputStream(fos);
+			oos = new ObjectOutputStream(bos);
+			
+			oos.writeObject(p1);
+			oos.writeObject(p2);
+			oos.flush();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(oos !=null) oos.close();
+				if(fos !=null) fos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	public void testFileInputStreamObject() {
+		String filePath="D:/data2/test/aaa.txt";
+		FileInputStream ios = null;  // 기반스트림
+		ObjectInputStream ois = null;  // 보조스트림
+		try {
+			ios = new FileInputStream(filePath);
+			ois = new ObjectInputStream(ios);
+			Object a  = null;
+			if((a = ois.readObject()) instanceof Person) {
+				Person p = (Person)a;
+				System.out.println(p.getName());
+			}
+			if((a = ois.readObject()) instanceof Person) {
+				Person p = (Person)a;
+				System.out.println(p);
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(ois !=null) ois.close();
+				if(ios !=null) ios.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
 	public void testRamda() throws UserException {
 		int[] arr = {2,3,4};
 		int[] arr2 = new int[] {2,3,4};
@@ -21,9 +91,22 @@ public class TestFileIO {
 		}
 		if(arr.length >2) {
 			// No exception of type UserException can be thrown; an exception type must be a subclass of Throwable
-			throw new UserException("배열의 크기는 2보다 크면 안됨. 줄여주세요.");
-			// 오류 발생하고 죽어버림.
+			//throw new UserException();
+			throw new UserException("배 크면 안됨. 줄여주세요.");
+			// 오류 발생하고 죽어버림.열의 크기는 2보다
 		}
+	}
+	public void testFileReadData() {
+		String filePath="D:/data2/test/aaa.txt";
+		try(DataInputStream dis = new DataInputStream(new FileInputStream(filePath));) {
+			long temp = 0L;
+			while((temp=dis.readLong()) != 0) {
+				System.out.println(String.valueOf(temp));
+			}
+			// F2 - quick fix 사용 1. try catch 신중하게 잘 써야함. 2. unimplement method add
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
 	}
 	public void testFileRead3() {
 		String filePath="D:/data2/test/aaa.txt";
