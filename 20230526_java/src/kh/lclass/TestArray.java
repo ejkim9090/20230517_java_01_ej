@@ -2,8 +2,11 @@ package kh.lclass;
 
 import java.util.Arrays;
 
+import kh.lclass.vo.TestVo;
+
 public class TestArray {
 	public static void main(String[] args) {
+	
 		String[] strArr = new String[3];
 		strArr[0] = "apple";
 		strArr[1] = "banana";
