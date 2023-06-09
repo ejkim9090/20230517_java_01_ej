@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
@@ -18,7 +19,7 @@ public class TcpClient {
 		InputStream in = null;
 		OutputStream out = null;
 		BufferedReader br = null;
-		BufferedWriter wr = null;
+		PrintWriter pw = null;
 		
 		
 		// console에 입력한 문자 읽어들이기 위한 객체 2가지 
@@ -37,19 +38,20 @@ public class TcpClient {
 			out = socket.getOutputStream();
 			// 6.보조 스트림을 통해 성능 개선
 			br = new BufferedReader(new InputStreamReader(in));
-			wr = new BufferedWriter(new OutputStreamWriter(out));
+			pw = new PrintWriter(new OutputStreamWriter(out));
 			
 			String sendMsg = null;
-			
-			System.out.print("메시지>>");
-			sendMsg = stdIn.readLine();  // console에 입력한 문자 읽어들이기
-			
-			wr.write(sendMsg);
-			wr.flush();
-			
-			String receivedMsg = br.readLine();
-			System.out.println("서버로부터 받은메시지: "+ receivedMsg);
-			
+			while(true) {
+				System.out.print("메시지>>");
+				sendMsg = stdIn.readLine();  // console에 입력한 문자 읽어들이기
+				System.out.println("########"+sendMsg);
+				
+				pw.println(sendMsg);
+				pw.flush();
+				
+				String receivedMsg = br.readLine();
+				System.out.println("서버로부터 받은메시지: "+ receivedMsg);
+			}
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -57,7 +59,7 @@ public class TcpClient {
 		} finally {
 			try {
 				if(stdIn!=null) stdIn.close();
-				if(wr!=null) wr.close();
+				if(pw!=null) pw.close();
 				if(br!=null) br.close();
 				if(out!=null) out.close();
 				if(in!=null) in.close();
