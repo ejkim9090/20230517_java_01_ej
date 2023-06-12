@@ -1,0 +1,84 @@
+{
+	"MetalService": {
+		"header": {
+			"code": "00",
+			"message": "NORMAL SERVICE"
+		},
+		"item": [
+			{
+				"SDATE": "20230107000000",
+				"STATIONCODE": 1,
+				"ITEMCODE": "90303",
+				"TIMECODE": "RH02",
+				"VALUE": 14.7556
+			},
+			{
+				"SDATE": "20230107020000",
+				"STATIONCODE": 1,
+				"ITEMCODE": "90303",
+				"TIMECODE": "RH02",
+				"VALUE": 13.2949
+			},
+			{
+				"SDATE": "20230107040000",
+				"STATIONCODE": 1,
+				"ITEMCODE": "90303",
+				"TIMECODE": "RH02",
+				"VALUE": 20.4721
+			},
+			{
+				"SDATE": "20230107060000",
+				"STATIONCODE": 1,
+				"ITEMCODE": "90303",
+				"TIMECODE": "RH02",
+				"VALUE": 23.4483
+			},
+			{
+				"SDATE": "20230107080000",
+				"STATIONCODE": 1,
+				"ITEMCODE": "90303",
+				"TIMECODE": "RH02",
+				"VALUE": 100.5213
+			},
+			{
+				"SDATE": "20230107100000",
+				"STATIONCODE": 1,
+				"ITEMCODE": "90303",
+				"TIMECODE": "RH02",
+				"VALUE": 72.6795
+			},
+			{
+				"SDATE": "20230107120000",
+				"STATIONCODE": 1,
+				"ITEMCODE": "90303",
+				"TIMECODE": "RH02",
+				"VALUE": 97.6663
+			},
+			{
+				"SDATE": "20230107140000",
+				"STATIONCODE": 1,
+				"ITEMCODE": "90303",
+				"TIMECODE": "RH02",
+				"VALUE": 80.3474
+			},
+			{
+				"SDATE": "20230107160000",
+				"STATIONCODE": 1,
+				"ITEMCODE": "90303",
+				"TIMECODE": "RH02",
+				"VALUE": 69.5755
+			},
+			{
+				"SDATE": "20230107180000",
+				"STATIONCODE": 1,
+				"ITEMCODE": "90303",
+				"TIMECODE": "RH02",
+				"VALUE": 71.358
+			}
+		],
+		"rows": null,
+		"numOfRows": 10,
+		"pageNo": 1,
+		"totalCount": 12
+	}
+}
