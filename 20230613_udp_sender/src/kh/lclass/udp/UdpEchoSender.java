@@ -25,7 +25,7 @@ public class UdpEchoSender {
 		BufferedReader br = null;
 		try {
 			// DatagramSocket 객체 생성
-			dSock = new DatagramSocket(myPort);// 매개인자 없으면 자동port 번호 할당.지정하면 해당 포트 번호로 소켓 생성
+			dSock = new DatagramSocket();// 매개인자 없으면 자동port 번호 할당.지정하면 해당 포트 번호로 소켓 생성
 
 			// System.in이 기반스트림 역할
 			br = new BufferedReader(new InputStreamReader(System.in));
@@ -38,7 +38,6 @@ public class UdpEchoSender {
 					break;
 				}
 				
-				
 				// 메시지 전달
 				InetAddress destIp = null;
 				try {
@@ -47,7 +46,9 @@ public class UdpEchoSender {
 					// 4. 전송할 메시지를 byte[]로 바꿈
 					byte[] byteMsg = sendMsg.getBytes();
 					// 5. 전송할 메시지를 DatagramPacket 객체에 담음
-					DatagramPacket sendData = new DatagramPacket(byteMsg, byteMsg.length, destIp, destPort);
+					DatagramPacket sendData 
+					= new DatagramPacket
+					(byteMsg, byteMsg.length, destIp, destPort);
 					// 6. 소켓 레퍼런스를 사용하여 메시지 전송
 					dSock.send(sendData);
 				} catch (UnknownHostException e) {
