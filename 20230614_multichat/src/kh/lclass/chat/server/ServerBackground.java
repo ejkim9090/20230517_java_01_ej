@@ -42,6 +42,10 @@ public class ServerBackground {
 		}
 	}
 	
+	// 클라이언트 접속이 끊어지면 그 정보를 나타내 주는 메소드
+	public void removeClient(String nickname) {
+		gui.appendMsg(nickname+"님이 나가셨습니다.");
+	}
 	// 클라이언트 접속하면 그 정보를 나타내 주는 메소드
 	public void addClient(String nickname) {
 		gui.appendMsg(nickname+"님이 접속했습니다.");
@@ -79,7 +83,7 @@ public class ServerBackground {
 				bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 				// client nickname이 바로 이어서 들어옴.
 				//접속되면 바로 nickname이 전달될 것이므로 읽음
-				String nickname = br.readLine();
+				nickname = br.readLine();
 				// server 화면에 표현
 				addClient(nickname);
 				// client outputStream 관리 map에 추가
@@ -95,15 +99,20 @@ public class ServerBackground {
 			// client 마다 각각에서 전달되어오는 메시지 확인하고 화면에 출력
 			// client와 입력 통로가 끊어지지 않았다면 계속 반복확인함.
 			// client에서 수신받은 msg
-			while(br != null) {
-				try {
+			try {
+				// 반복문과 try-catch 위치 수정함.
+				while(br != null) {
 					String msg = br.readLine();
 					gui.appendMsg(msg);
 					// client map 모두에게 접속 정보 전달
 					sendMessage(msg);
-				} catch (IOException e) {
-					e.printStackTrace();
 				}
+			} catch (IOException e) {
+				e.printStackTrace();
+				// 접속이 끊어졌다고 판단함.
+				removeClient(nickname);
+				mapClients.remove(nickname);
+				sendMessage(nickname+"님 나갔습니다.");
 			}
 		}
 	}
