@@ -35,7 +35,7 @@ public class ClientBackground {
 			bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 			
 			bw.write(nickname + "\n");
-			//bw.flush();
+			bw.flush();
 			
 			// server와 입력 통로가 끊어지지 않았다면 계속 반복확인함.
 			// server에서 수신받은 msg
@@ -54,7 +54,7 @@ public class ClientBackground {
 		// server에 msg 전달 
 		try {
 			bw.write(msg + "\n");
-			//bw.flush();
+			bw.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
