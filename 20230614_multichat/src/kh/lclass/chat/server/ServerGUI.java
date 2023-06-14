@@ -41,6 +41,7 @@ public class ServerGUI extends JFrame  implements ActionListener{
 	public void appendMsg(String msg) {
 		// jta (채팅창)에 msg를 추가함. 
 		jta.append(msg);
+		jta.append("\n");
 	}
 	
 	@Override
