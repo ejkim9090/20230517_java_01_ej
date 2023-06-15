@@ -14,6 +14,11 @@ import java.io.IOException;
 public class EvInfoController{
 	public void getEvIfoAll() {
 		EvInfoService service = new EvInfoService();
-		service.start();		
+		service.start();
+		int a =0;
+		
+		a = 1;
+		
+				
 	}
 }
