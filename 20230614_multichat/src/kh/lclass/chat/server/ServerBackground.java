@@ -77,7 +77,7 @@ public class ServerBackground {
 		private String nickname;
 		public Client(Socket socket) {
 			// 초기값 설정
-			// client와 입/출력 통로 생성
+			// client와 입/출력 통로 생성 
 			try {
 				br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -89,6 +89,7 @@ public class ServerBackground {
 				// client outputStream 관리 map에 추가
 				mapClients.put(nickname, bw);
 				// client map 모두에게 접속 정보 전달
+				System.out.println("[ejkim]-1"+ nickname); // null
 				sendMessage(nickname+"님 접속했습니다.");
 			} catch (IOException e) {
 				e.printStackTrace();

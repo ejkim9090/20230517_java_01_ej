@@ -35,13 +35,13 @@ public class ClientGUI extends JFrame  implements ActionListener{
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
-		
+		System.out.println(nickname);
 		cb.setNickname(nickname);
 		cb.setGui(this);
 		cb.connection();
 	}
 	
-	// TODO 새 메시지를 받았을때 메소드 호출됨.
+	// 새 메시지를 받았을때 메소드 호출됨.
 	public void appendMsg(String msg) {
 		// jta (채팅창)에 msg를 추가함. 
 		jta.append(msg);

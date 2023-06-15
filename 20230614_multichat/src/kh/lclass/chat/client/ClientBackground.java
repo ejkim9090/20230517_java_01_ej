@@ -34,6 +34,7 @@ public class ClientBackground {
 			br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			bw = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 			// 접속되면 바로 나의 nickname 전송
+			System.out.println("[ejkim]-2"+nickname);
 			bw.write(nickname + "\n");
 			bw.flush();
 			
@@ -53,9 +54,10 @@ public class ClientBackground {
 	public void sendMessage(String msg) {
 		// server에 msg 전달 
 		try {
+			System.out.println("[ejkim]-3"+nickname);
 			bw.write(nickname+":"+msg+ "\n");
 			bw.flush();
-			gui.appendMsg(msg);
+			//gui.appendMsg(msg);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -63,7 +65,8 @@ public class ClientBackground {
 	
 	// 닉네임 setter
 	public void setNickname(String nickName) {
-		this.nickname = nickName;
+		System.out.println("[ejkim]-4"+nickName);
+		this.nickname = nickname;
 	}
 	// private ClientGUI gui;
 	public void setGui(ClientGUI gui) {
