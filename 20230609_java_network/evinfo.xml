@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<response>
+	<header>
+		<resultCode>00</resultCode>
+		<resultMsg>NORMAL SERVICE.</resultMsg>
+	</header>
+	<body>
+		<items>
+			<item>
+				<addr>전라남도 나주시 빛가람동 120 본사내 남측 주차장</addr>
+				<chargeTp>1</chargeTp>
+				<cpId>30</cpId>
+				<cpNm>완속07</cpNm>
+				<cpStat>2</cpStat>
+				<cpTp>3</cpTp>
+				<csId>293</csId>
+				<csNm>한전본사 남측주차장(공용)</csNm>
+				<lat>35.02523495981864</lat>
+				<longi>126.78296400994627</longi>
+				<statUpdateDatetime>2023-06-15 14:50:42</statUpdateDatetime>
+			</item>
+			<item>
+				<addr>전라남도 나주시 빛가람동 120 본사내 동측 파빌리온 주차장</addr>
+				<chargeTp>1</chargeTp>
+				<cpId>31</cpId>
+				<cpNm>완속01</cpNm>
+				<cpStat>1</cpStat>
+				<cpTp>3</cpTp>
+				<csId>294</csId>
+				<csNm>한전본사 파빌리온주차장(공용)</csNm>
+				<lat>35.02589305756602</lat>
+				<longi>126.78555103861139</longi>
+				<statUpdateDatetime>2023-06-15 14:55:12</statUpdateDatetime>
+			</item>
+			<item>
+				<addr>전라남도 나주시 빛가람동 120 본사내 남측 주차장</addr>
+				<chargeTp>1</chargeTp>
+				<cpId>25</cpId>
+				<cpNm>완속02</cpNm>
+				<cpStat>3</cpStat>
+				<cpTp>3</cpTp>
+				<csId>293</csId>
+				<csNm>한전본사 남측주차장(공용)</csNm>
+				<lat>35.02523495981864</lat>
+				<longi>126.78296400994627</longi>
+				<statUpdateDatetime>2022-01-03 08:53:18</statUpdateDatetime>
+			</item>
+			<item>
+				<addr>전라남도 나주시 빛가람동 120 본사내 남측 주차장</addr>
+				<chargeTp>1</chargeTp>
+				<cpId>28</cpId>
+				<cpNm>완속05</cpNm>
+				<cpStat>3</cpStat>
+				<cpTp>3</cpTp>
+				<csId>293</csId>
+				<csNm>한전본사 남측주차장(공용)</csNm>
+				<lat>35.02523495981864</lat>
+				<longi>126.78296400994627</longi>
+				<statUpdateDatetime>2022-01-03 08:54:22</statUpdateDatetime>
+			</item>
+			<item>
+				<addr>전라남도 나주시 빛가람동 120 본사내 남측 주차장</addr>
+				<chargeTp>2</chargeTp>
+				<cpId>13</cpId>
+				<cpNm>급속01</cpNm>
+				<cpStat>1</cpStat>
+				<cpTp>9</cpTp>
+				<csId>293</csId>
+				<csNm>한전본사 남측주차장(공용)</csNm>
+				<lat>35.02523495981864</lat>
+				<longi>126.78296400994627</longi>
+				<statUpdateDatetime>2023-06-15 14:54:27</statUpdateDatetime>
+			</item>
+			<item>
+				<addr>전라남도 나주시 빛가람동 120 본사내 동측 파빌리온 주차장</addr>
+				<chargeTp>2</chargeTp>
+				<cpId>14</cpId>
+				<cpNm>급속01</cpNm>
+				<cpStat>1</cpStat>
+				<cpTp>10</cpTp>
+				<csId>294</csId>
+				<csNm>한전본사 파빌리온주차장(공용)</csNm>
+				<lat>35.02589305756602</lat>
+				<longi>126.78555103861139</longi>
+				<statUpdateDatetime>2023-06-15 14:55:03</statUpdateDatetime>
+			</item>
+			<item>
+				<addr>전라남도 나주시 빛가람동 120 본사내 남측 주차장</addr>
+				<chargeTp>1</chargeTp>
+				<cpId>26</cpId>
+				<cpNm>완속03</cpNm>
+				<cpStat>4</cpStat>
+				<cpTp>3</cpTp>
+				<csId>293</csId>
+				<csNm>한전본사 남측주차장(공용)</csNm>
+				<lat>35.02523495981864</lat>
+				<longi>126.78296400994627</longi>
+				<statUpdateDatetime>2023-05-22 10:12:38</statUpdateDatetime>
+			</item>
+			<item>
+				<addr>전라남도 나주시 빛가람동 120 본사내 남측 주차장</addr>
+				<chargeTp>1</chargeTp>
+				<cpId>27</cpId>
+				<cpNm>완속04</cpNm>
+				<cpStat>1</cpStat>
+				<cpTp>3</cpTp>
+				<csId>293</csId>
+				<csNm>한전본사 남측주차장(공용)</csNm>
+				<lat>35.02523495981864</lat>
+				<longi>126.78296400994627</longi>
+				<statUpdateDatetime>2023-06-15 14:52:57</statUpdateDatetime>
+			</item>
+			<item>
+				<addr>전라남도 나주시 빛가람동 120 본사내 남측 주차장</addr>
+				<chargeTp>1</chargeTp>
+				<cpId>29</cpId>
+				<cpNm>완속06</cpNm>
+				<cpStat>1</cpStat>
+				<cpTp>3</cpTp>
+				<csId>293</csId>
+				<csNm>한전본사 남측주차장(공용)</csNm>
+				<lat>35.02523495981864</lat>
+				<longi>126.78296400994627</longi>
+				<statUpdateDatetime>2023-06-15 14:51:05</statUpdateDatetime>
+			</item>
+			<item>
+				<addr>전라남도 나주시 빛가람동 120 본사내 동측 파빌리온 주차장</addr>
+				<chargeTp>1</chargeTp>
+				<cpId>32</cpId>
+				<cpNm>완속02</cpNm>
+				<cpStat>1</cpStat>
+				<cpTp>3</cpTp>
+				<csId>294</csId>
+				<csNm>한전본사 파빌리온주차장(공용)</csNm>
+				<lat>35.02589305756602</lat>
+				<longi>126.78555103861139</longi>
+				<statUpdateDatetime>2023-06-15 14:55:00</statUpdateDatetime>
+			</item>
+		</items>
+		<numOfRows>10</numOfRows>
+		<pageNo>1</pageNo>
+		<totalCount>12</totalCount>
+	</body>
+</response>
