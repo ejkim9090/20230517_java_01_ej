@@ -52,7 +52,7 @@
 				</tr>
 				<tr>
 					<th>패스워드</th>
-					<td><input type="password" name="mpwd"placeholder="(5-9, 대문자, 소문자, 숫자, 특수문자(!_#) 최소1개이상 포함)"></td>
+					<td><input type="password" name="mpwd" placeholder="(5-9, 대문자, 소문자, 숫자, 특수문자(!_#) 최소1개이상 포함)"></td>
 				</tr>
 				<tr class="hint">
 					<td></td>
@@ -60,31 +60,31 @@
 				</tr>
 				<tr>
 					<th>이름</th>
-					<td><input type="text" name="mname"></td>
+					<td><input type="text" name="mname" placeholder="(2-10, 한글)"></td>
 				</tr>
 				<tr class="hint">
 					<td></td>
 					<td>(2-10, 한글)</td>
 				</tr>
 				<tr>
-					<th>전화번호(7, 좀전...)</th>
-					<td><input type="text" name="mtel"></td>
+					<th>전화번호</th>
+					<td><input type="text" name="mtel" placeholder="(7, 좀전...)"></td>
 				</tr>
 				<tr class="hint">
 					<td></td>
 					<td>(7, 좀전...)</td>
 				</tr>
 				<tr>
-					<th>이메일(5-100, 일단생략)</th>
-					<td><input type="email" name="memail"></td>
+					<th>이메일</th>
+					<td><input type="email" name="memail" placeholder="(문자@문자.문자 (문자는 영문자+숫자+.-_기호가능))"></td>
 				</tr>
 				<tr class="hint">
 					<td></td>
-					<td>(5-100, 일단생략)</td>
+					<td>(문자@문자.문자 (문자는 영문자+숫자+.-_기호가능))</td>
 				</tr>
 				<tr>
-					<th>주민번호(14, 좀전...)</th>
-					<td><input type="text" name="msno"></td>
+					<th>주민번호</th>
+					<td><input type="text" name="msno" placeholder="(14, 좀전...)"></td>
 				</tr>
 				<tr class="hint">
 					<td></td>
@@ -99,54 +99,82 @@
 <script>
 	$("#frmJoin [type=button]").click(sumbitHandler);
 	function sumbitHandler(){
-		console.log("여기들어완?");
+		var result = checkRegularExpression1();
+		if(result == false){
+			//return;
+		}
+		// 전달
+		//var queryString = $("#frmJoin").serialize();
+		//console.log(queryString); // mid=a&mpwd=b&mname=c&mtel=d&memail=e&msno=f
+		// queryString : ?n1=v1&n2=v2
+		//var queryStringEx = "?"+"mid="+$("[name=mid]").val()+"&mpwd="+$("[name=mpwd]").val();
+		
+		document.getElementById("frmJoin").action = "<%=request.getContextPath()%>/join";
+		document.getElementById("frmJoin").method = "post";
+		document.getElementById("frmJoin").submit();
+	}
+	function checkRegularExpression1(){
 		// 유효성 검사
 		var id = $("[name=mid]").val();
 		var regEx_id = /^[A-Za-z][A-Za-z0-9_!]{4,8}$/; 
-		console.log(typeof(regEx_id));
-		
 		if( !regEx_id.test(id) ){
-			console.log("정규표현식 부적합");
 			alert("아이디는 5-16자 영문자로 시작하고 영문자와 숫자만 입력해주세요");
 			$("[name=mid]").focus();
-			return;
-		} 
-		/* 
-		if (id.length < 5 || id.length > 16) {
-			// 오류 조건식으로 체크함
-			alert("아이디는 5-16자 입력해주세요");
-			$("[name=mid]").focus();
-			return;
-		}  
-		*/
-		// string 객체 메소드
-		// includes("a")
-		
-		
+			return false;
+		}
+		console.log("mid 정규표현식 적합");
 		// id가 정상적으로 입력되어있다면 다음 pwd 체크함.
 		var pwd = $("[name=mpwd]").val();
 		var regEx_pwd = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!_#])[a-zA-Z0-9!_#]{5,9}$/; 
 		if( !regEx_pwd.test(pwd) ){
+			alert("mpwd 비밀번호는 입력해주세요");
+			$("[name=mpwd]").focus();
+			return false;
+		} 
+		console.log("mpwd 정규표현식 적합");
+		var mname = $("[name=mname]").val();
+		var regEx_mname = /^[가-힣]{2,10}$/;
+		if( !regEx_mname.test(mname) ){
+			alert("mname 정규표현식 부적합");
+			$("[name=mname]").focus();
+			return false;
+		} 
+		console.log("mname 정규표현식 적합");
+		var mtel = $("[name=mtel]").val();
+		var regEx_mtel = /^01[016789][0-9]{3,4}[0-9]{4}$/; 
+		if( !regEx_mtel.test(mtel) ){
 			console.log("정규표현식 부적합");
-			alert("비밀번호는 8-20자 입력해주세요");
-			$("[name=mpwd]").focus();
-			return;
-		} else {
-			console.log("정규표현식 적합");
-		}
-		/* 
-		if (pwd.length < 8 || pwd.length > 20) {
-			// 오류 조건식으로 체크함
-			alert("비밀번호는 8-20자 입력해주세요");
-			$("[name=mpwd]").focus();
+			alert("mtel 정규표현식 부적합");
+			$("[name=mtel]").focus();
 			return;
 		} 
-		 */
+		console.log("mtel 정규표현식 적합");
+		var memail = $("[name=memail]").val();
+		//이메일 형식이 문자@문자.문자 (문자는 영문자+숫자+.-_기호가능) 
+		var regEx_memail = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/; 
+		if( !regEx_memail.test(memail) ){
+			console.log("정규표현식 부적합");
+			alert("memail 정규표현식 부적합");
+			$("[name=memail]").focus();
+			return false;
+		} 
+		console.log("memail 정규표현식 적합");
+		var msno = $("[name=msno]").val();
+		var regEx_msno = /^[0-9]{6}[1234][0-9]{6}$/; 
+		if( !regEx_msno.test(msno) ){
+			console.log("정규표현식 부적합");
+			alert("msno 정규표현식 부적합");
+			$("[name=msno]").focus();
+			return false;
+		} 
+		console.log("msno 정규표현식 적합");
+		return true;
 	}
+	
+	// $("[name=mname]").parents('tr').next('.hint').css("color", 'red');
+			
 </script>
 
-	
-	
 	
 </body>
 </html>
