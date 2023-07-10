@@ -218,9 +218,72 @@ select to_number('123,4567,89.01', '999,9999,99.99')*5 from dual;
 -- 오류 select '123,4567,8901'*5 from dual;
 -- 오류 select '123,456,789,012'*5 from dual;
 
+-- 직원들의 평균 급여는 얼마인지 조회
+select avg(sal) 평균급여 from emp;
+select sum(sal) sum from emp;
+select max(sal) max from emp;
+select min(sal) min from emp;
+select count(sal) count from emp;
+-- 부서별 평균 급여 조회
+select avg(sal) 평균급여, deptno from emp group by deptno;
+select sum(sal) sum, deptno from emp group by deptno;
+select max(sal) max, deptno from emp group by deptno;
+select min(sal) min, deptno from emp group by deptno;
+select count(sal) count, deptno from emp group by deptno;
+select count(*) count, deptno from emp group by deptno;
+-- job별 평균 급여 조회
+select avg(sal) 평균급여, job from emp group by job;
+select sum(sal) sum, job from emp group by job;
+select max(sal) max, job from emp group by job;
+select min(sal) min, job from emp group by job;
+select count(sal) count, job from emp group by job;
+select count(*) count, job from emp group by job;
 
+-- job이 ANALYST 인 직원의 평균 급여 조회
+select avg(sal) 평균급여, job 
+    from emp 
+    group by job
+    having job='ANALYST'
+;
+select avg(sal) 평균급여
+    -- 오류, job 
+    from emp 
+    where job='ANALYST'
+;
+-- job이 CLERK 인 부서별 직원의 평균 급여 조회
+---- job이 CLERK 인 부서별 직원
+select job, deptno, ename, sal
+    from emp
+    where job='CLERK';
+-- job이 CLERK 인 부서별 직원의 평균 급여 조회
+select job, deptno, avg(sal)
+--, ename
+    from emp
+    where job='CLERK'
+    group by deptno, job
+    ;
 
+select * from emp
+    order by sal desc, ename asc
+    ;
+select sal, sal*12+nvl(comm,0) salcomm 
+    from emp
+    order by salcomm desc, sal asc
+    ;
+select ename, sal*12+nvl(comm,0)  
+    from emp
+    order by 2 desc, 1 desc
+    ;
+-- job 오름차순
+select * from emp
+--    order by job;
+    order by 3;    
+    
+    
+-- EMPLOYEE에서 부서코드, 그룹 별 급여의 합계, 그룹 별 급여의 평균(정수처리), 인원 수를 조회하고 부서 코드 순으로 정렬
 
+-- EMPLOYEE테이블에서 부서코드와 보너스 받는 사원 수 조회하고 부서코드 순으로 정렬
+-- EMPLOYEE테이블에서 성별과 성별 별 급여 평균(정수처리), 급여 합계, 인원 수 조회하고 인원수로 내림차순 정렬
 
 
 
