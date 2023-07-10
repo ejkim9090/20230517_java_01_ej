@@ -95,6 +95,128 @@ select *
 --    where deptno != 10 AND deptno != 20 AND deptno != 30
     where deptno not in (10,20,30)
 ;
+select * from emp;
+
+
+-- 급여를 1800보다 많이 받고 2500보다 적게 받는 직원이름과 급여 조회
+
+-- ‘S’로 시작하는 2글자이상의 이름을 가진 직원 이름과 급여 조회
+select ename, sal 
+    from emp
+    where ename like 'S_%'
+;
+--ORA-00933: SQL 명령어가 올바르게 종료되지 않았습니다
+--00933. 00000 -  "SQL command not properly ended"
+--SQL Error [933] [42000]: ORA-00933: SQL 명령어가 올바르게 종료되지 않았습니다
+
+-- 핸드폰의 앞 네 자리 중 첫 번호가 7인 직원 이름과 전화번호 조회
+-- 이름 중 3번째 글자가 ‘S’ 인 직원 이름과 급여 조회
+select ename, sal 
+    from emp
+    where ename like '__S%'
+;
+-- 이름 중 3번째 글자가 ‘_’ 인 직원 이름과 급여 조회
+select ename, sal 
+    from emp
+    -- 이름이 4글자 이상인 직원
+--    where ename like '___%'  
+    where ename like '__\_%' escape '\'
+         or job like '__@_%' escape '@'
+-- like '__*_' escape '*'
+;
+-- EMAIL ID 중 ‘_’의 앞이 3자리인 직원 이름, 이메일 조회
+-- ‘이’씨 성이 아닌 직원 사번, 이름, 이메일 조회
+-- 관리자도 없고 부서 배치도 받지 않은 직원 조회 - *
+select *
+    from emp
+    where mgr is null
+        and deptno is null
+;
+-- 관리자가 없지만 보너스를 지급받는 직원 조회
+select *
+    from emp
+    where mgr is null
+        and comm is not null
+;
+-- 20 부서와 30 부서원들의 이름, 부서코드, 급여 조회
+-- in
+select ename, deptno, sal
+    from emp
+    where deptno in (20, 30)
+    -- deptno = 20 or deptno = 30
+;
+
+-- ANALYST 또는 SALESMAN 인 사원 중 급여를 2500보다 많이 받는 직원의 이름, 급여, job 조회
+select ename, sal, job
+    from emp
+    where job in ('ANALYST', 'SALESMAN') 
+        and sal >= 2500
+    ;
+-- 사원명의 길이와 byte크기를 조회
+select length(ename), lengthb(ename)
+    from emp
+    ;
+--select ' a안 녕b ', length(' a안 녕b '), lengthb(' a안 녕b ')
+select trim(' a안 녕b '), length(trim(' a안 녕b ')), lengthb(trim(' a안 녕b ')) 
+--    from emp
+    from dual
+--   테이블 dual 은 임시테이블로 연산이나 간단한 함수 결과값을 조회할때 사용함.
+;
+-- 사원명의 시작부분 S와 끝나는 부분 S 모두 제거해주세요.
+select Rtrim(Ltrim(ename, 'S'), 'S') from emp;
+-- Ltrim 예시 010 제거
+
+-- Lpad / Rpad 채워넣기
+-- ename이 총 10자가 되도록 left 쪽에 'S'를 채워주세요.
+select Lpad(ename, 10, 'S') from emp;
+-- ename이 총 10자가 되도록 left 쪽에 ' ' 공백(default)를 채워주세요.
+select Lpad(ename, 10) from emp;
+
+-- 문자(컬럼) 이어붙이기
+select concat(ename, comm) from emp;
+select ename||comm from emp;
+select sal||'달러' from emp;
+select concat(sal, '달러') from emp;
+-- substr 엄청중요 !!
+-- replace
+select replace(ename, 'AM', 'AB') from emp;
+
+
+select ename||'s family' , sal ||'원'
+from emp;
+select sal, '원'
+from emp;
+
+-- sysdate은 함수는 아니나 명령어가 실행되는 시점에 결과값을 출력해주므로 함수호출과 같이 동작함.
+select sysdate, add_months(sysdate, 1) from dual;
+select hiredate from emp;
+select hiredate, add_months(hiredate, 1) from emp;
+-- 2023.07.10 (월)
+select sysdate, to_char(sysdate, 'yyyy.mm.dd (dy) hh24:mi:ss')  from dual;
+select sysdate, to_char(sysdate, 'yyyy.mm.dd (day) hh24:mi:ss')  from dual;
+
+alter session set NLS_DATE_FORMAT = 'yyyy-mm-dd hh24:mi:ss';
+select sysdate from dual;
+select * from emp;
+
+-- year 2023 month 09 day 11 hour 13
+select to_date('2023091113', 'yyyymmddhh24') from dual;
+select add_months(to_date('2023091113', 'yyyymmddhh24'), 5) from dual;
+select next_day(to_date('2023091113', 'yyyymmddhh24'), '수') from dual;  
+select next_day(to_date('2023091113', 'yyyymmddhh24'), 4) from dual;  
+-- 1:일요일, 2 월요일, 3 화요일...
+select last_day(to_date('2023091113', 'yyyymmddhh24')) from dual;
+
+-- 오류 select add_months('20230911132214', 4) from dual;
+
+select to_char(empno, '000000') , '$'||trim(to_char(sal, '999,999,999,999'))
+    from emp;
+select to_char(empno, '000000') , trim(to_char(sal, 'L999,999,999,999'))
+    from emp;
+
+select to_number('123,4567,89.01', '999,9999,99.99')*5 from dual;
+-- 오류 select '123,4567,8901'*5 from dual;
+-- 오류 select '123,456,789,012'*5 from dual;
 
 
 
