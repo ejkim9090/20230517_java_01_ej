@@ -72,15 +72,29 @@ select *
 --    where deptno != 20
 --    where deptno <> 20
 --    where deptno ^= 20
-    where not deptno = 20
+--    where not deptno = 20
+    where deptno not in (20)
 ;
--- 20번 부서를 제외한 사원 중 comm이 null인 사원 정보를 조회
+-- 20번 부서를 제외한 사원 중 comm이 null이 아닌 사원 정보를 조회
 select * 
     from emp
-    where not deptno = 20
+    where not deptno = 20 
+--        and comm is not null
+-- 오류        comm != null  comm = null
 ;
-
-
+-- 10, 20, 30 부서를 사원 정보를 조회
+select * 
+    from emp
+--    where deptno = 10 OR deptno = 20 OR deptno = 30
+    where deptno in (10, 20, 30)
+;
+-- 10, 20, 30 부서를 제외한 사원 정보를 조회
+select * 
+    from emp
+--    where not (deptno = 10 OR deptno = 20)
+--    where deptno != 10 AND deptno != 20 AND deptno != 30
+    where deptno not in (10,20,30)
+;
 
 
 
