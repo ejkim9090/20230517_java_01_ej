@@ -152,5 +152,102 @@ SELECT distinct DEPT_CODE    FROM EMPLOYEE;
 SELECT distinct DEPT_CODE    FROM EMPLOYEE
     order by dept_code asc
 ; 
+-- EMPLOYEE에서 부서코드, 그룹 별 급여의 합계, 그룹 별 급여의 평균(정수처리), 인원 수를 조회하고 부서 코드 순으로 정렬
+
+-- EMPLOYEE테이블에서 부서코드와 보너스 받는 사원 수 조회하고 부서코드 순으로 정렬
+-- EMPLOYEE테이블에서 성별과 성별 별 급여 평균(정수처리), 급여 합계, 인원 수 조회하고 인원수로 내림차순 정렬
+
+
+--부서 코드와 급여 3000000 이상인 직원의 그룹별 평균 조회
+select dept_code, avg(salary)
+    from employee
+-- 사원 각자의 급여가 3000000 이상
+    where salary >= 3000000
+    group by dept_code
+;
+--부서 코드와 급여 평균이 3000000 이상인 그룹 조회
+select dept_code, avg(salary)
+    from employee
+    group by dept_code
+-- 그룹된 부서별 평균 급여가 3000000 이상
+    having avg(salary) > 3000000
+;
+
+--- 사원명, 부서번호, 부서명, 부서위치를 조회
+select tb1.emp_name, tb1.dept_code, tb2.dept_title, tb2.location_id, tb3.national_code, tb4.national_name
+    from employee tb1
+        join department tb2 on tb1.dept_code = tb2.dept_id
+        join location tb3 on tb2.location_id = tb3.local_code
+        join national tb4 on tb3.national_code = tb4.national_code 
+        -- join조건에 사용되는 컬럼명이 다르면 using 사용 불가
+;
+--- 사원명, 부서번호, 부서명, 부서위치를 조회
+--ORA-00904: "TB3"."NATIONAL_CODE": 부적합한 식별자
+--00904. 00000 -  "%s: invalid identifier"
+--select tb1.emp_name, tb1.dept_code, tb2.dept_title, tb2.location_id, tb3.national_code, tb4.national_name
+select tb1.emp_name as c1, tb1.dept_code c2, tb2.dept_title, tb2.location_id, national_code, tb4.national_name
+    from employee tb1
+        join department tb2 on tb1.dept_code = tb2.dept_id
+        join location tb3 on tb2.location_id = tb3.local_code
+        join national tb4 using (national_code)
+        -- join조건에 사용되는 컬럼명이 다르면 using 사용 불가
+;
+select emp_name, dept_code, dept_title, location_id, national_code, national_name
+    from employee tb1
+        join department tb2 on tb1.dept_code = tb2.dept_id
+        join location tb3 on tb2.location_id = tb3.local_code
+        join national tb4 using (national_code)
+        -- join조건에 사용되는 컬럼명이 다르면 using 사용 불가
+;
+
+select tb1.emp_name, tb1.dept_code, tb2.dept_title, tb2.location_id, tb3.national_code, tb4.national_name
+    from employee tb1, department tb2, location tb3, national tb4
+    where tb1.dept_code = tb2.dept_id
+        and tb2.location_id = tb3.local_code
+        and tb3.national_code = tb4.national_code 
+;
+select * from  EMPLOYEE;
+select * from  DEPARTMENT;
+select * from  JOB;
+select * from  LOCATION;
+select * from  NATIONAL;
+select * from  SAL_GRADE;
+
+select * 
+from  EMPLOYEE e
+ join DEPARTMENT d on e.dept_code=d.dept_id
+;
+select * 
+from  EMPLOYEE e
+ left outer join DEPARTMENT d on e.dept_code=d.dept_id
+;
+select * 
+from  EMPLOYEE e
+ right outer join DEPARTMENT d on e.dept_code=d.dept_id
+;
+select * 
+from  EMPLOYEE e
+ full outer join DEPARTMENT d on e.dept_code=d.dept_id
+;
+select * 
+from  EMPLOYEE e , DEPARTMENT d 
+ where e.dept_code=d.dept_id(+)
+;
+select * 
+from  EMPLOYEE e , DEPARTMENT d 
+ where e.dept_code(+)=d.dept_id
+;
+-- oracle join에서 full outer join 표기법없음
+--ORA-01468: outer-join된 테이블은 1개만 지정할 수 있습니다
+--01468. 00000 -  "a predicate may reference only one outer-joined table"
+--select * 
+--from  EMPLOYEE e
+-- , DEPARTMENT d 
+-- where e.dept_code(+)=d.dept_id(+)
+--;
+
+
+
+
 
 
