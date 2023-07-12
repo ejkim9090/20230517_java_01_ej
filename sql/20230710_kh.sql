@@ -8,7 +8,7 @@ select * from  SAL_GRADE;
 select emp_name, length(emp_name) len, lengthb(emp_name) byteLen
     from employee
     ;
-select * from employee where emp_name = '방_명수';
+select * from employee where emp_name = '방명수';
 
 --
 --ORA-00911: 문자가 부적합합니다
@@ -245,6 +245,24 @@ from  EMPLOYEE e , DEPARTMENT d
 -- , DEPARTMENT d 
 -- where e.dept_code(+)=d.dept_id(+)
 --;
+
+
+-- 20230712
+-- 02 - 16. EMPLOYEE테이블에서 사원명, 주민번호 조회 (단, 주민번호는 생년월일만 보이게 하고, '-'다음 값은 '*'로 바꾸기)
+select emp_id, emp_no, substr(emp_no, 1, 7), rPAD(substr(emp_no, 1, 7), 14, '*') 
+    from employee
+;
+
+
+
+
+
+
+
+
+
+
+
 
 
 
