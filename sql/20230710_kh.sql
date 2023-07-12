@@ -323,7 +323,7 @@ create table user_foreignkey2(
     gender varchar2(10),
     phone varchar2(30),
     email varchar2(50),
-    grade_code number constraint FK_user_foreignkey2_grade_code_user_grade references user_grade(grade_code)
+    grade_code number constraint FK_user_foreignkey2_grade_code_user_grade references user_grade
 --    grade_code number references user_grade(grade_code) on delete cascade
     );
 
@@ -341,7 +341,9 @@ select * from user_foreignkey;
 select * from user_foreignkey2;
 
 
-
+select ename, emp_no, substr(emp_no, 1,6)
+--    , TO_DATE(substr(emp_no, 1,6), 'rrmmdd')
+from employee;
 
 
 

@@ -555,7 +555,6 @@ select ename, deptno,
     from emp e
 ;
 
-
 -- SALESMAN 과 'MANAGER' 를 조회해주세요.
 select * from emp
     where job='SALESMAN' or job='MANAGER';
