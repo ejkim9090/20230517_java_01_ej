@@ -253,11 +253,92 @@ select emp_id, emp_no, substr(emp_no, 1, 7), rPAD(substr(emp_no, 1, 7), 14, '*')
     from employee
 ;
 
+SELECT * FROM EMPLOYEE;
+SELECT DEPT_CODE, JOB_CODE, MANAGER_ID, FLOOR(AVG(SALARY))
+    FROM EMPLOYEE
+    GROUP BY GROUPING SETS((DEPT_CODE, JOB_CODE, MANAGER_ID),
+                            (DEPT_CODE, MANAGER_ID), 
+                            (JOB_CODE, MANAGER_ID))
+;
+SELECT DEPT_CODE, JOB_CODE, MANAGER_ID, FLOOR(AVG(SALARY)) FROM EMPLOYEE GROUP BY (DEPT_CODE, JOB_CODE, MANAGER_ID);
+SELECT DEPT_CODE, MANAGER_ID, FLOOR(AVG(SALARY))    FROM EMPLOYEE    GROUP BY (DEPT_CODE, MANAGER_ID);
+SELECT JOB_CODE, MANAGER_ID, FLOOR(AVG(SALARY))    FROM EMPLOYEE    GROUP BY (JOB_CODE, MANAGER_ID);
+
+SELECT DEPT_CODE, JOB_CODE, MANAGER_ID, FLOOR(AVG(SALARY)) FROM EMPLOYEE GROUP BY (DEPT_CODE, JOB_CODE, MANAGER_ID)
+union
+SELECT DEPT_CODE, null, MANAGER_ID, FLOOR(AVG(SALARY))   FROM EMPLOYEE    GROUP BY (DEPT_CODE, MANAGER_ID)
+union
+SELECT null, JOB_CODE, MANAGER_ID, FLOOR(AVG(SALARY))  FROM EMPLOYEE    GROUP BY (JOB_CODE, MANAGER_ID);
 
 
 
 
 
+
+SELECT DEPT_CODE
+, JOB_CODE
+--, MANAGER_ID
+, FLOOR(AVG(SALARY))
+    FROM EMPLOYEE
+    GROUP BY DEPT_CODE  , JOB_CODE
+--    , MANAGER_ID
+;
+
+
+
+create table user_grade(
+    grade_code number primary key,
+    grade_name varchar2(30) not null
+    );
+insert into user_grade values(10,'일반회원');
+insert into user_grade values(20,'우수회원');
+insert into user_grade values(30,'특별회원');
+select * from user_grade;
+drop table user_foreignkey;
+create table user_foreignkey(
+    user_no number primary key,
+    user_id varchar2(20) unique,
+    user_pwd varchar2(30) not null,
+    user_name varchar2(30),
+    gender varchar2(10),
+    phone varchar2(30),
+    email varchar2(50),
+    grade_code number not null,
+    -- 여기 constraint 이름정해주기. 
+    -- FK_user_foreignkey_grade_code_user_grade
+    -- 자동생성 SYS_0000000
+    constraint FK_user_foreignkey_grade_code_user_grade   foreign key (grade_code)  references user_grade(grade_code) 
+    );
+insert into user_foreignkey values(1,'user01', 'pass01', '홍길동', '남', '010-1234-5678', 'hong123@kh.or.kr',10);
+insert into user_foreignkey values(2,'user02', 'pass02', '이순신', '남', '010-9012-3456', 'lee123@kh.or.kr',20);
+insert into user_foreignkey values(3,'user03', 'pass03', '유관순', '여', '010-3131-3131', 'yoo123@kh.or.kr',30);
+insert into user_foreignkey values(4,'user04', 'pass04', '신사임당', '여', '010-1111-1111', 'shin123@kh.or.kr',null);
+insert into user_foreignkey values(5,'user05', 'pass05', '안중근', '남', '010-4444-4444', 'ahn123@kh.or.kr',50);
+drop table user_foreignkey2;
+create table user_foreignkey2(
+    user_no number primary key,
+    user_id varchar2(20) unique,
+    user_pwd varchar2(30) not null,
+    user_name varchar2(30),
+    gender varchar2(10),
+    phone varchar2(30),
+    email varchar2(50),
+    grade_code number constraint FK_user_foreignkey2_grade_code_user_grade references user_grade(grade_code)
+--    grade_code number references user_grade(grade_code) on delete cascade
+    );
+
+insert into user_foreignkey2 values(1,'user01', 'pass01', '홍길동', '남', '010-1234-5678', 'hong123@kh.or.kr',10);
+insert into user_foreignkey2 values(2,'user02', 'pass02', '이순신', '남', '010-9012-3456', 'lee123@kh.or.kr',20);
+insert into user_foreignkey2 values(3,'user03', 'pass03', '유관순', '여', '010-3131-3131', 'yoo123@kh.or.kr',30);
+insert into user_foreignkey2 values(4,'user04', 'pass04', '신사임당', '여', '010-1111-1111', 'shin123@kh.or.kr',null);
+insert into user_foreignkey2 values(5,'user05', 'pass05', '안중근', '남', '010-4444-4444', 'ahn123@kh.or.kr',50);
+
+delete from user_grade where grade_code=0;
+--ORA-02292: 무결성 제약조건(KH.SYS_C008483)이 위배되었습니다- 자식 레코드가 발견되었습니다
+--ORA-02292: 무결성 제약조건(KH.FK_USER_FOREIGNKEY_GRADE_CODE_USER_GRADE)이 위배되었습니다- 자식 레코드가 발견되었습니다
+select * from user_constraints;
+select * from user_foreignkey;
+select * from user_foreignkey2;
 
 
 

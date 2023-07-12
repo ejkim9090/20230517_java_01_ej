@@ -436,54 +436,10 @@ where rnum between 7 and 9
 --20230712
 -- 03- 11. GRADE별로 평균급여에 10프로내외의 급여를 받는 사원명을 조회 - 정렬
 -- where 에 subquery 활용
-select s.grade, e.ename , e.sal
-    from emp e join salgrade s  on e.sal between s.losal and s.hisal
-    where e.sal > 
-    -- 다중 행 결과물과 >= 비교 안됨.(950, 1266, 1550, 2879, 5000 )
-            (
-            select avg(sal)
-                from emp e2 join salgrade s2
-                    on e2.sal between s2.losal and s2.hisal
-                where s2.grade = s.grade
-                --group by s2.grade having s2.grade = 4
-            )*0.9
-            and e.sal <
-            (
-            select avg(sal)
-                from emp e2 join salgrade s2
-                    on e2.sal between s2.losal and s2.hisal
-                where s2.grade =  s.grade
-                --group by s2.grade having s2.grade = 4
-            )*1.1
-;
-select avg(sal) , s.grade
-    from emp e join salgrade s
-        on e.sal between s.losal and s.hisal
-    group by s.grade
-;
+
 -- select에서 rownum 반드시 별칭
 -- select에서 함수사용한 경우 반드시 별칭
 -- with 사용
-with abc3 as ( select s.grade, e.ename , e.sal
-    from emp e join salgrade s
-        on e.sal between s.losal and s.hisal )
-select *
-    from abc3 t1
-    where sal between (select avg(t2.sal) from abc3 t2 where t2.grade = t1.grade)*0.9 
-    and (select avg(t2.sal) from abc3 t2 where t2.grade = t1.grade)*1.1
-;
-select t1.grade, ename "10프로내외"
-    from view_emp_salgrade t1
-    where sal between (select avg(t2.sal) from view_emp_salgrade t2 where t2.grade = t1.grade)*0.9 
-    and (select avg(t2.sal) from view_emp_salgrade t2 where t2.grade = t1.grade)*1.1
-    order by t1.grade asc, 2 asc
-;
-Create or replace view view_emp_salgrade 
-as
-select e.empno, e.ename, job, mgr, hiredate, sal, comm, deptno, grade, losal, hisal
-    from emp e join salgrade s
-        on e.sal between s.losal and s.hisal
-;
 
 --  from 절 subquery
 select grade, ename "10프로내외"
@@ -517,11 +473,11 @@ select grade, ename "10프로내외"
                 ;
 
 select a.grade as grade, b.ename as 평균10프로내외인사원 
-from  (select s.grade as grade, avg(sal) as avgsal from emp e join salgrade s 
-on e.sal between s.losal and s.hisal group by s.grade) a 
-join emp b  
-on b.sal between a.avgsal * 0.9 and a.avgsal * 1.1
-order by a.grade asc, 평균10프로내외인사원 asc;
+    from  (select s.grade as grade, avg(sal) as avgsal from emp e join salgrade s 
+    on e.sal between s.losal and s.hisal group by s.grade) a 
+    join emp b  
+    on b.sal between a.avgsal * 0.9 and a.avgsal * 1.1
+    order by a.grade asc, 평균10프로내외인사원 asc;
 
 
 
@@ -530,11 +486,125 @@ select * from salgrade;
 select * from dept;
 
 
+--지역 재난 지원금을 사원들에게 추가 지급
+--조건 :
+--1. NEW YORK지역은 SAL의 2%, DALLAS지역은 SAL의 5%, CHICAGO지역은 SAL의 3%, BOSTON지역은 SAL의 7%
+--2. 추가지원금이 많은 사람 순으로 정렬
+select empno, ename, sal, loc,
+        sal + case loc
+            when 'NEW YORK' then sal*0.02
+            when 'DALLAS' then sal*0.05
+            when 'CHICAGO' then sal*0.03
+            when 'BOSTON' then sal*0.07
+        end
+        as sal_subsidy
+    from emp e
+        join  dept d  using (deptno)
+--    where
+--    group by
+--    having
+    order by sal_subsidy - sal desc
+;
+select empno, ename, sal, loc,
+        sal + decode(loc,  'NEW YORK', sal*0.02,  'DALLAS', sal*0.05, 'CHICAGO', sal*0.03, 'BOSTON' ,sal*0.07, 0)
+        as sal_subsidy
+    from emp e
+        join  dept d  using (deptno)
+--    order by (sal_subsidy - sal) desc
+    order by decode(loc,  'NEW YORK', sal*0.02,  'DALLAS', sal*0.05, 'CHICAGO', sal*0.03, 'BOSTON' ,sal*0.07, 0) desc
+;
+--SALESMAN 들의 급여와 같은 급여를 받는 사원을 조회
+select empno, ename, sal
+    from emp
+    where sal > all (select sal from emp where job='SALESMAN')
+--    where sal > (select max(sal) from emp where job='SALESMAN')
+;
+select ename,sal from emp where job='SALESMAN' ;
+
+--관리자로 등록되어 있는 사원들을 조회
+select empno, ename
+    from emp e
+    where exists ( select empno from emp e2 where e.empno = e2.mgr)
+;
+select * from emp;
+select distinct e.empno, e.ename
+    from emp e join emp e2
+        on e.empno = e2.mgr
+;
+-- join 대비 상관쿼리사용시 속도 향상
+
+
+--부서 번호가 30인 사원들의 급여와 부서번호를 묶어 메인 쿼리로 전달해 보자.
+select *
+    from emp
+    where (deptno, sal) in (select deptno, sal from emp where deptno=30)
+;
+-- 부서별 평균급여와 직원들 정보를 조회해주세요.
+select e.*, 
+        -- 스칼라 서브쿼리 작성되어야 함.
+    (select trunc(avg(sal)) from emp e2 where e2.deptno=e.deptno) avgsal
+    from emp e
+    ;
+-- 직원 정보와 부서번호, 부서명, 부서위치
+select ename, deptno, dname, loc
+    from emp join dept using(deptno)
+;
+select ename, deptno, 
+        (select dname from dept d where d.deptno=e.deptno) dname
+        ,(select loc from dept d where d.deptno=e.deptno) loc
+    from emp e
+;
+
+
+-- SALESMAN 과 'MANAGER' 를 조회해주세요.
+select * from emp
+    where job='SALESMAN' or job='MANAGER';
+select * from emp
+    where job in ('SALESMAN', 'MANAGER');
+
+select * from emp    where job='SALESMAN'
+union
+select * from emp    where job='MANAGER'
+;
+select empno, ename, job from emp    where job='SALESMAN'
+union
+select mgr, ename, job from emp    where job='MANAGER'
+--ORA-01790: 대응하는 식과 같은 데이터 유형이어야 합니다
+--01790. 00000 -  "expression must have same datatype as corresponding expression"
+--select ename, mgr, job from emp    where job='MANAGER'
+;
+-- 급여가 1000미만인 직원, 2000 미만인 직원 조회- 중복 포함 결과
+select empno, ename, sal from emp where sal < 1000
+union all
+select empno, ename, sal from emp where sal < 2000
+;
+-- 급여가 1000 초과인 직원, 2000 미만인 직원 조회 - intersect
+select empno, ename, sal from emp where sal > 1000
+intersect
+select empno, ename, sal from emp where sal < 2000
+;
+-- 2000 미만인 직원을 제외하고 조회 - minus
+select empno, ename, sal from emp
+minus
+select empno, ename, sal from emp where sal < 2000
+;
+-- not exists
+select empno, ename, sal from emp e
+    where not exists (select e2.sal from emp e2 where e.sal < 2000)
+;
 
 
 
+-- DDL
+-- comment
+comment on column emp.mgr is '관리자사번';
+
+desc emp;
+desc user_constraints;
+select * from user_constraints;
+select * from user_tables;
+select * from user_views;
+select * from user_cons_columns;
 
 
-
-
-
+delete dept where deptno=10;
