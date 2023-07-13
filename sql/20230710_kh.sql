@@ -33,15 +33,15 @@ select INSTR('AORACLEWELCOMEOKEY', 'O', 3, 2)    from dual;
 select INSTR('AORACLEWELCOMEOKEY', 'O', 3, 3)    from dual;
 
 -- 급여를 3500000보다 많이 받고 6000000보다 적게 받는 직원이름과 급여 조회
--- ‘전’씨 성을 가진 직원 이름과 급여 조회
+-- '전'씨 성을 가진 직원 이름과 급여 조회
 -- 핸드폰의 앞 네 자리 중 첫 번호가 7인 직원 이름과 전화번호 조회
--- EMAIL ID 중 ‘_’의 앞이 3자리인 직원 이름, 이메일 조회
+-- EMAIL ID 중 '_'의 앞이 3자리인 직원 이름, 이메일 조회
 -- like '__*_' escape '*'
--- ‘이’씨 성이 아닌 직원 사번, 이름, 이메일 조회
+-- '이'씨 성이 아닌 직원 사번, 이름, 이메일 조회
 -- 관리자도 없고 부서 배치도 받지 않은 직원 조회
 -- 부서 배치를 받지 않았지만 보너스를 지급받는 직원 조회
 -- D6 부서와 D8 부서원들의 이름, 부서코드, 급여 조회
--- ‘J2’ 또는 ‘J7’ 직급 코드 중 급여를 2000000보다 많이 받는 직원의 이름, 급여, 직급코드 조회
+-- 'J2' 또는 'J7' 직급 코드 중 급여를 2000000보다 많이 받는 직원의 이름, 급여, 직급코드 조회
 
 -- 모든 사원들의 남, 여 성별과 함께 이름과 주민번호
 select emp_name, emp_no, 
@@ -344,6 +344,39 @@ select * from user_foreignkey2;
 select ename, emp_no, substr(emp_no, 1,6)
 --    , TO_DATE(substr(emp_no, 1,6), 'rrmmdd')
 from employee;
+
+
+CREATE TABLE USER_CHECK(
+USER_NO NUMBER PRIMARY KEY,
+USER_ID VARCHAR2(20) UNIQUE,
+USER_PWD VARCHAR2(30) NOT NULL,
+USER_NAME VARCHAR2(30),
+GENDER VARCHAR2(10) ,
+PHONE VARCHAR2(30),
+EMAIL VARCHAR2(50)
+, CHECK (GENDER IN ('남', '여'))
+);
+INSERT INTO USER_CHECK VALUES(1, 'user01', 'pass01', '홍길동', '남자', '010-1234-5678', 
+'hong123@kh.or.kr')
+;
+
+
+
+SELECT EMP_ID, EMP_NAME, DEPT_CODE, HIRE_DATE, MANAGER_ID
+FROM EMPLOYEE
+WHERE DEPT_CODE = 'D1'
+;
+
+
+
+
+
+
+
+
+
+
+
 
 
 
