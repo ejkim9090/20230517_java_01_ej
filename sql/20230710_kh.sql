@@ -367,16 +367,195 @@ FROM EMPLOYEE
 WHERE DEPT_CODE = 'D1'
 ;
 
+--20230714
+select * from user_constraints order by table_name desc;
+select * from employee;
+
+delete from employee;
+TRUNCATE table employee;
+drop table employee;
+
+create table TB_CLASS_PROFESSOR_copy as select * from TB_CLASS_PROFESSOR;
+
+select * from user_tables;
+
+
+--ORA-00998: 이 식은 열의 별명과 함께 지정해야 합니다
+--00998. 00000 -  "must name this expression with a column alias"
+CREATE OR REPLACE VIEW V_EMP_JOB2 
+    AS SELECT EMP_ID , EMP_NAME , JOB_NAME , 
+        DECODE(SUBSTR(EMP_NO, 8, 1), 1, '남', 2, '여') ,
+        EXTRACT(YEAR FROM SYSDATE)-EXTRACT(YEAR FROM HIRE_DATE) 
+        FROM EMPLOYEE
+        JOIN JOB USING(JOB_CODE)
+;
+SELECT * FROM V_EMP_JOB;
+select EXTRACT(YEAR FROM SYSDATE) 
+    ,EXTRACT(month FROM SYSDATE) 
+    ,EXTRACT(day FROM SYSDATE) 
+-- 오류    ,EXTRACT(hour FROM SYSDATE) 
+from dual;
+
+--ORA-00918: 열의 정의가 애매합니다
+--00918. 00000 -  "column ambiguously defined"
+CREATE OR REPLACE VIEW V_JOB(JOB_CODE, JOB_NAME)
+    AS SELECT j1.JOB_CODE, j1.JOB_NAME
+        FROM JOB j1 
+        JOIN JOB j2 
+            on j1.job_code = j2.job_code
+--        USING(JOB_CODE)
+;
+-- self join 은 반드시 table 별칭
+select * from JOB;
+INSERT INTO V_JOB VALUES('J8', '인턴');
+commit;
+
+CREATE OR REPLACE VIEW V_JOB2(JOB_CODE)
+    AS SELECT JOB_CODE  FROM JOB 
+;
+select * from view_abc;
+
+
+SELECT emp_id, emp_name, EXTRACT(YEAR FROM sysdate) - (1900 + substr(emp_no,1,2)) age,
+        d.DEPT_TITLE , j.JOB_NAME 
+FROM EMPLOYEE e 
+        JOIN JOB j ON e.JOB_CODE = j.JOB_CODE  
+        JOIN DEPARTMENT d ON DEPT_CODE = dept_id
+where age = (SELECT min(EXTRACT(YEAR FROM sysdate) - (1900 + substr(emp_no,1,2))) minage
+                FROM EMPLOYEE )
+;
+-- 춘대학 3-6
+SELECT STUDENT_NO, STUDENT_NAME, DEPARTMENT_NAME
+    FROM TB_STUDENT
+    JOIN TB_DEPARTMENT USING(DEPARTMENT_NO)
+ORDER BY 2;
+
+-- 04-2
+--2. 나이 상 가장 막내의 사원 코드, 사원 명, 나이, 부서 명, 직급 명 조회
+select emp_id, emp_name, d.dept_title, j.job_name
+            , Extract(year from sysdate)-extract(year from to_date(substr(emp_no,1,2), 'rr')) age
+    from employee e
+    join department d on ( e.dept_code = d.dept_id)
+    join "JOB" j using (job_code)
+    where emp_no = (select max(emp_no) from employee)
+;
+select max(emp_no) from employee;
+select max(emp_name) from employee;
+select min(emp_name) from employee;
+
+
+select * from 
+    ( select emp_id, emp_name, d.dept_title, j.job_name
+                , Extract(year from sysdate)-extract(year from to_date(substr(emp_no,1,2), 'rr')) age
+        from employee e
+        join department d on ( e.dept_code = d.dept_id)
+        join "JOB" j using (job_code)
+    ) tb1
+    where age = (select min(Extract(year from sysdate)-extract(year from to_date(substr(emp_no,1,2), 'rr'))) minage
+                    from employee)
+;
+select min(Extract(year from sysdate)-extract(year from to_date(substr(emp_no,1,2), 'rr'))) minage
+    from employee;
 
 
 
 
+--ORA-01847: 달의 날짜는 1에서 말일 사이어야 합니다
+--01847. 00000 -  "day of month must be between 1 and last day of month"
+select Extract(year from sysdate)-extract(year from to_date(substr(emp_no,1,2), 'rr'))
+    from employee
+;
+select emp_no, extract(year from to_date(substr(emp_no,1,2), 'yy')),
+-- rr 은 50을 기준으로 1951, 2049
+    extract(year from to_date(substr(emp_no,1,2), 'rr')),
+    case 
+    when Extract(year from sysdate)-extract(year from to_date(substr(emp_no,1,2), 'yy')) < 0
+    then Extract(year from sysdate)- (extract(year from to_date(substr(emp_no,1,2), 'yy'))-100)
+    end age
+from employee;
+-- 
+select extract(year from to_date('500112', 'yymmdd')) yy
+        , extract(year from to_date('500112', 'rrmmdd')) mm
+        , extract(year from to_date('450112', 'yymmdd')) yy
+        , extract(year from to_date('450112', 'rrmmdd')) mm
+        , extract(year from to_date('990112', 'yymmdd')) yy
+        , extract(year from to_date('990112', 'rrmmdd')) mm
+    from dual;
+
+-- 04-7. 한국이나 일본에서 근무 중인 사원의 사원 명, 부서 명, 지역 명, 국가 명 조회
+select emp_name, tb_d.dept_title, tb_e.job_name, tb_d.local_name, tb_d.national_name
+    from (select * from employee e join "JOB" j using(job_code)) tb_e
+    join (
+            select * from department d 
+                join location c on (d.location_id=c.local_code)
+                join national n using (national_code)
+                where n.national_name in ('한국','일본')
+                ) tb_d
+    on tb_e.dept_code = tb_d.dept_id
+;
+select * from department;
+select * from location;
+select * from national;
+select emp_name, dept_code from employee;
+select e1.emp_name, e2.emp_name
+    from employee e1
+    join employee e2 on e1.dept_code=e2.dept_code and e1.emp_name <> e2.emp_name
+--    where e1.emp_name <> e2.emp_name
+order by e1.emp_name
+;
+
+
+--21. EMPLOYEE테이블에서 직원 명, 부서코드, 생년월일, 나이(만) 조회
+-- (단, 생년월일은 주민번호에서 추출해서 00년 00월 00일로 출력되게 하며
+-- 나이는 주민번호에서 출력해서 날짜데이터로 변환한 다음 계산)
+select emp_name, dept_code,
+        substr(emp_no, 1,2)||'년 '||substr(emp_no, 3,2)||'월 '||substr(emp_no, 5,2)||'일' "생년월일"
+        , Extract(year from sysdate)-extract(year from to_date(substr(emp_no,1,2), 'rr')) "만나이"
+    from employee
+;
+select emp_name
+        , to_date(substr(emp_no, 1,6), 'rrmmdd')
+        , to_char(to_date(substr(emp_no, 1,6), 'rrmmdd'), 'yy"년" mm"월" dd"일"') "생년월일"
+        , floor((sysdate - to_date(substr(emp_no, 1,6), 'rrmmdd'))/365) "진짜 만나이"
+    from employee;
+
+select student_name, student_ssn, entrance_date from tb_student;
+select student_name, student_ssn, entrance_date 
+    , extract(year from to_date(substr(student_ssn, 1,2), 'rr')) birth
+    , extract(year from entrance_date) entr
+    , extract(year from entrance_date) - extract(year from to_date(substr(student_ssn, 1,2), 'rr'))+1  aaa
+from tb_student
+where extract(year from entrance_date) - extract(year from to_date(substr(student_ssn, 1,2), 'rr'))+1 > 20
+;
+select * from (
+        select student_name, student_ssn, entrance_date 
+            , extract(year from to_date(substr(student_ssn, 1,2), 'rr')) birth
+            , extract(year from entrance_date) entr
+            , extract(year from entrance_date) - extract(year from to_date(substr(student_ssn, 1,2), 'rr'))+1  aaa
+        from tb_student) tb1
+where tb1.aaa > 20
+;
+select * from (
+        select student_name, student_ssn, entrance_date 
+            , case when (substr(student_ssn, 1,2)) > 23 then substr(student_ssn, 1,2)+1900
+                else substr(student_ssn, 1,2)+2000
+                end birth
+            , extract(year from entrance_date) entr
+            , extract(year from entrance_date) - extract(year from to_date(substr(student_ssn, 1,2), 'rr'))+1  aaa
+        from tb_student) tb1
+where tb1.aaa > 20
+;
+
+
+select * from user_indexes;
 
 
 
-
-
-
+SELECT * FROM EMPLOYEE
+--    WHERE EMP_NO > '0'
+;
+create synonym emp for employee;
+select * from emp;
 
 
 

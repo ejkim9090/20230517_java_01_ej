@@ -19,7 +19,7 @@ create user scott identified by tiger;
 -- connect - 접속관련 권한들이 있는 role
 -- resource - 자원(table, view 등 객체)관련 권한들이 있는 role
 grant connect, resource to c##scott, kh;
-grant connect, resource to kh;
+grant connect, resource, dba to kh;
 revoke connect, resource from kh;
 grant connect, resource to scott, kh;
 -- 21g xe 버젼 , dba 추가
@@ -27,6 +27,28 @@ grant connect, resource, dba to scott, kh;
 
 --create table emp
 --create user scott
+
+--2023-07-14
+select * from all_users;
+select * from dba_users;
+select * from user_users;
+--상태: 실패 -테스트 실패: ORA-28000: 계정이 잠겼습니다.
+alter user kh account unlock;
+
+--select * from KH.DEPT;
+-- 안됨. create public synonym dept_public for KH.DEPT;
+create public synonym DEPT2_PUBLIC for KH.DEPARTMENT;
+select * from DEPT2_PUBLIC;
+alter session set "_ORACLE_SCRIPT"=true;
+drop user kh cascade;
+
+
+
+
+
+
+
+
 
 
 
