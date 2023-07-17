@@ -839,12 +839,86 @@ select seq_tb1_c1.nextval from dual;
 -- 접속관련된 설정- oracle 12이후 버젼에서 false 상태로 접속됨.
 alter session set "_ORACLE_SCRIPT"=false;  
 create role role_scott_manager;
-create user kh2 ;
+create user c##kh2 identified by kh2;
 
+--	분석함수 종류
+--	a. 순위함수 : RANK(), DENSE_RANK(), ROW_NUMBER(), NTILE()
+--	b. 집계함수 = 그룹함수: COUNT(), SUM(), AVG(), MIN(), MAX()
+--	c. 그룹함수 = 집계함수 group by : ROLLUP()+grouping(), CUBE()+grouping(), GROUPING SET() 참고 “3_GROUP BY_HAVING4.pdf”
+--	d. 1 : CUME_DIST(), RATIO_TO_REPORT()
+--	e. \\\LAG(), ///LEAD()
+--	f. FIRST_VALUE(), LAST_VALUE()
+--	
+--	"위 c 제외한 
+--분석함수의 윈도우-범위(영역) 정하기"
+--	a,b,d,e,f 분석함수
+--	OVER()  ==> window - 윈도우 영역 절
+--1	OVER()
+--2	OVER( PARTITION BY 컬1 )
+--3	OVER( ORDER BY 컬1 DESC, 컬2 ASC, 컬3 DESC )
+--4	OVER( PARTITION BY 컬1 ORDER BY 컬1 DESC, 컬2, 컬3 )
+--5	OVER( PARTITION BY 컬1 ROWS 아래 참고)
+--5-1	OVER( PARTITION BY 컬1 ROWS ~ )
+--5-2	OVER( PARTITION BY 컬1 ROWS BETWEEN ~ AND ~ )
+--~	UNBOUNDED PRECEDING
+--~	UNBOUNDED FOLLOWING
+--~	CURRENT ROW
+--~	2 PRECEDING
+--~	1 FOLLOWING
+--6	OVER( PARTITION BY 컬1 ORDER BY 컬1 DESC, 컬2, 컬3 ROWS BETWEEN ~ AND ~ )
 
+-- window - over ( partition by ..) : 기존 group by 단점 개선
+select deptno, empno, ename, sal
+        , sum(sal) over(partition by deptno) sumsal 
+    from emp;
 
+-- window - over( order by ..) : 기존 rownum 대비 간결, - 동일순위가 있을때 다음순위값이 +1 dense_rank()
+select deptno, empno, ename, sal
+        , rank() over(order by sal asc) ranksal
+        , dense_rank() over(order by sal asc) dranksal
+        , row_number() over(order by sal asc) rnsal
+        , rank() over (partition by deptno order by sal asc) dept_sal_rank
+    from emp
+    order by deptno
+    ;
+select dense_rank(2450) within group (order by sal asc) clarksal
+    from emp;
+-- rownum 
+select deptno, empno, ename, sal
+        , rn ranksal
+    from (select rownum rn, t1.*  from (select deptno, empno, ename, sal from  emp order by sal asc) t1) ;
+--  부서코드가 '30'인 직원의 이름, 급여, 급여에대한누적분산 을 조회
+--  부서별 직원의 이름, 급여, 급여에대한누적분산 을 조회
+--d. 1 : 누적분산 CUME_DIST(), 비율 RATIO_TO_REPORT()
+select ename, deptno, sal 
+        , trunc(CUME_DIST() over(order by sal), 2) sal_cume_dist
+        , trunc(ratio_to_report(sal) over(), 2) sal_ratio
+        , trunc(CUME_DIST() over(partition by deptno order by sal), 2) sal_cume_dist
+        , trunc(ratio_to_report(sal) over(partition by deptno)*100, 2)||'%' sal_ratio
+    from emp
+--    where deptno=30
+    order by deptno
+    ;
 
-
+SELECT DEPTNO, ENAME, SAL
+ , FIRST_VALUE(ENAME) OVER (PARTITION BY DEPTNO ORDER BY SAL DESC
+--                            ROWS UNBOUNDED PRECEDING
+                            ) as DEPT_RICH 
+ , LAST_VALUE(ENAME) OVER (PARTITION BY DEPTNO ORDER BY SAL DESC
+                            ) as DEPT_POOR_ERROR
+-- 오류
+, LAST_VALUE(ENAME) OVER (PARTITION BY DEPTNO ORDER BY SAL DESC
+-- WINDOW 절
+-- 생략시 현재 행이 작성되는 내용(값)까지만 알 수 있음. 다음 행에 나올 값은 알지 못함.
+-- unbounded preceding : 윈도우의 첫행
+-- unbounded following : 윈도우의 마지막행
+-- 1 preceding : 현재행의 이전행
+-- 1 following : 현재행의 다음행
+-- current row : 현재행
+                            ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING
+--                            ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+                            ) as DEPT_POORFROM
+FROM EMP;
 
 
 

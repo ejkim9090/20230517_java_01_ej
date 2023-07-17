@@ -559,6 +559,137 @@ select * from emp;
 
 
 
+-- 20230717
+-- group by - 꼭 지켜져야하는 룰 : group by 컬럼명, 컬럼명 만 select 로 선택할 수 있음. 또는 그룹함수 사용가능.
+SELECT JOB_CODE, SUM(SALARY) sumsal, count(*) cnt    FROM EMPLOYEE    group by JOB_CODE              ORDER BY 1;
+-- 집계(전체)
+SELECT JOB_CODE, SUM(SALARY)    FROM EMPLOYEE    GROUP BY ROLLUP(JOB_CODE)      ORDER BY 1;
+SELECT JOB_CODE, SUM(SALARY)    FROM EMPLOYEE    GROUP BY CUBE(JOB_CODE)        ORDER BY 1;
+-- group by
+SELECT DEPT_CODE, JOB_CODE, SUM(SALARY) FROM EMPLOYEE    group by DEPT_CODE, JOB_CODE    ORDER BY 1;
+-- 집계 (전체)
+-- DEPT_CODE 묶인 것이 없음.
+SELECT DEPT_CODE, JOB_CODE, SUM(SALARY) FROM EMPLOYEE GROUP BY ROLLUP(JOB_CODE, DEPT_CODE) ORDER BY 1;
+-- JOB_CODE 묶인 것이 없음.
+SELECT DEPT_CODE, JOB_CODE, SUM(SALARY) FROM EMPLOYEE GROUP BY ROLLUP(DEPT_CODE, JOB_CODE) ORDER BY 1;
+
+
+SELECT DEPT_CODE, JOB_CODE, SUM(SALARY) FROM EMPLOYEE GROUP BY CUBE(DEPT_CODE, JOB_CODE) ;
+-- 위 아래 같은 결과를 나오게 하기 위해서는 cube(c1, c2) = rollup(c1, c2)+rollup(c2)
+SELECT DEPT_CODE, JOB_CODE, SUM(SALARY) FROM EMPLOYEE GROUP BY ROLLUP(DEPT_CODE, JOB_CODE) 
+UNION all
+SELECT '', JOB_CODE, SUM(SALARY) FROM EMPLOYEE GROUP BY ROLLUP(JOB_CODE) ORDER BY 1;
+
+
+SELECT DEPT_CODE, JOB_CODE, SUM(SALARY) FROM EMPLOYEE GROUP BY CUBE(DEPT_CODE, JOB_CODE) ORDER BY 1;
+SELECT DEPT_CODE, JOB_CODE, SUM(SALARY),
+        CASE 
+        -- grouping(c1) : c1의 집계부분인지 0,1로 확인됨.
+        -- 0 : 해당 컬럼으로 grouping 된 안된상태. = C1각각의 상태
+        -- 1 : 해당하는 컬럼으로 grouping 된 상태. = 전체상태
+        WHEN GROUPING(DEPT_CODE) = 0 AND GROUPING(JOB_CODE) = 1         THEN '부 합계'
+        WHEN GROUPING(DEPT_CODE) = 1 AND GROUPING(JOB_CODE) = 0         THEN '직 '
+        WHEN GROUPING(DEPT_CODE) = 1 AND GROUPING(JOB_CODE) = 1         THEN '총 합계'
+        ELSE '그룹별 합계'
+        END AS 구분
+    FROM EMPLOYEE
+    GROUP BY CUBE(DEPT_CODE, JOB_CODE)
+    ORDER BY 1;
+    
+    
+SELECT DEPT_CODE, JOB_CODE, SUM(SALARY),
+        CASE 
+        -- grouping(c1) : c1의 집계부분인지 0,1로 확인됨.
+        -- 0 : 해당 컬럼으로 grouping 된 안된상태. = C1각각의 상태
+        -- 1 : 해당하는 컬럼으로 grouping 된 상태. = 전체상태 = 결과에 null 로 표현됨.
+        WHEN GROUPING(DEPT_CODE) = 0 AND GROUPING(JOB_CODE) = 1         THEN '부 합계'
+        -- ROLLUP인 경우 나타나지 않음.
+        WHEN GROUPING(DEPT_CODE) = 1 AND GROUPING(JOB_CODE) = 0         THEN '직 '
+        WHEN GROUPING(DEPT_CODE) = 1 AND GROUPING(JOB_CODE) = 1         THEN '총 합계'
+        ELSE '그룹별 합계'
+        END AS 구분
+    FROM EMPLOYEE
+    GROUP BY rollup(DEPT_CODE, JOB_CODE)  
+    ORDER BY 1;
+
+
+-- grouping sets : group by 한 결과물을 union 함.
+SELECT DEPT_CODE, JOB_CODE, MANAGER_ID, FLOOR(AVG(SALARY)) FROM EMPLOYEE
+    GROUP BY GROUPING SETS((DEPT_CODE, JOB, MANAGER_ID),(DEPT_CODE, MANAGER_ID), (JOB_CODE, MANAGER_ID));
+
+
+-- 춘대학교 3-15 rollup, cube 사용
+
+
+--	분석함수 종류
+--	a. 순위함수 : RANK(), DENSE_RANK(), ROW_NUMBER(), NTILE()
+--	b. 집계함수 = 그룹함수: COUNT(), SUM(), AVG(), MIN(), MAX()
+--	c. 그룹함수 = 집계함수 group by : ROLLUP()+grouping(), CUBE()+grouping(), GROUPING SET() 참고 “3_GROUP BY_HAVING4.pdf”
+--	d. 1 : CUME_DIST(), RATIO_TO_REPORT()
+--	e. \\\LAG(), ///LEAD()
+--	f. FIRST_VALUE(), LAST_VALUE()
+--	
+--	"위 c 제외한 
+--분석함수의 윈도우-범위(영역) 정하기"
+--	a,b,d,e,f 분석함수
+--	OVER()  ==> window - 윈도우 영역 절
+--1	OVER()
+--2	OVER( PARTITION BY 컬1 )
+--3	OVER( ORDER BY 컬1 DESC, 컬2 ASC, 컬3 DESC )
+--4	OVER( PARTITION BY 컬1 ORDER BY 컬1 DESC, 컬2, 컬3 )
+--5	OVER( PARTITION BY 컬1 ROWS 아래 참고)
+--5-1	OVER( PARTITION BY 컬1 ROWS ~ )
+--5-2	OVER( PARTITION BY 컬1 ROWS BETWEEN ~ AND ~ )
+--~	UNBOUNDED PRECEDING
+--~	UNBOUNDED FOLLOWING
+--~	CURRENT ROW
+--~	2 PRECEDING
+--~	1 FOLLOWING
+--6	OVER( PARTITION BY 컬1 ORDER BY 컬1 DESC, 컬2, 컬3 ROWS BETWEEN ~ AND ~ )
+
+
+
+SELECT EMP_NAME, DEPT_code, SALARY,
+    LAG(SALARY, 2, 0) OVER (ORDER BY SALARY) 이전값,
+    -- 2번째매개인자 : 몇행이전인지 나타냄. 1 이전행, 2 전전행
+    -- 3번째매개인자 : 이전행이 없다면 출력할 값을 작성 (이전행 있다면 이전행값)
+    -- 1 : 위의 행값, 0 : 이전행이 없으면 0 처리함
+    LAG(SALARY, 1, SALARY) OVER (ORDER BY SALARY) "조회2",
+    -- 이전행이 없으면 현재 행의 값을 출력
+    LAG(SALARY, 1, SALARY) OVER (PARTITION BY DEPT_code ORDER BY SALARY) "조회3"
+    -- 부서 그룹안에서의 이전 행값 출력
+    
+    ,LEAD(SALARY, 1, 0) OVER (ORDER BY SALARY) 다음값,
+    -- 2번째매개인자 : 몇행다음인지 나타냄. 1 다음행, 2 다다음행
+    -- 3번째매개인자 : 다음행이 없다면 출력할 값을 작성 (다음행 있다면 다음행값)
+    -- 1 : 다음 행값, 0 : 다음행이 없으면 0 처리함
+    LEAD(SALARY, 1, SALARY) OVER (ORDER BY SALARY) "조회2",
+    -- 다음행이 없으면 현재 행의 값을 출력
+    LEAD(SALARY, 1, SALARY) OVER (PARTITION BY DEPT_code  ORDER BY SALARY) "조회3"
+    -- 부서 그룹안에서의 다음 행값 출력
+FROM EMPLOYEE
+--order by DEPT_code, SALARY
+;
+
+
+SELECT DEPT_code, EMP_ID, SALARY
+-- 1 preceding and 1 following 
+-- 현재 행을 중심으로 이전행부터 다음행의 급여합계
+        , SUM(SALARY) OVER (PARTITION BY DEPT_code ORDER BY EMP_ID ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING) win1
+-- 1 preceding and current row
+-- 이전행부터 현재행의 급여 합계
+        , SUM(SALARY) OVER (PARTITION BY DEPT_code ORDER BY EMP_ID ROWS BETWEEN 1 PRECEDING AND CURRENT ROW) win2
+-- current row and 1 following
+-- 현재 행과 다음행의 합계
+        , SUM(SALARY) OVER (PARTITION BY DEPT_code ORDER BY EMP_ID ROWS BETWEEN CURRENT ROW AND 1 FOLLOWING) win3
+    FROM EMPLOYEE
+--    WHERE DEPT_code = 'D5'
+; 
+
+
+
+
+
 
 
 
