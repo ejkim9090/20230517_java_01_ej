@@ -686,7 +686,7 @@ SELECT DEPT_code, EMP_ID, SALARY
 --    WHERE DEPT_code = 'D5'
 ; 
 
-
+DESC EMPLOYEE;
 
 
 

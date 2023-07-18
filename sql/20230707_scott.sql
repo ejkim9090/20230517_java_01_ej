@@ -920,18 +920,36 @@ SELECT DEPTNO, ENAME, SAL
                             ) as DEPT_POORFROM
 FROM EMP;
 
+select empno, ename, sal, ntile(4) over(order by sal) from emp order by sal;
 
+desc dept;
+select * from dept;
+insert into dept values(10,'ACCOUNT','NEW YORK');
+insert into dept values('&deptno','&부서명','&지역');
+--이전:insert into dept values('&deptno값을 넣어주세요','&부서명','&지역')
+--신규:insert into dept values('40 넣어주세요','매니저','서울')
+commit;
 
-
-
-
-
-
-
-
-
-
-
+select * from emp
+    where 
+--    ename = '%SMITH' 
+--        ename like '%SMITH'  -- abcSMITH
+--        comm is null
+        ename = '&SMITH'
+    ;
+-- 비교 = != <> ^= > < >= <=
+-- true false
+-- null
+select '&ㅁㅁㅁ' from dual;
+-- '&' - 작은 따옴표 안에 & - escape 문자 : 특별한역할 - 대체문자입력창을 띄워줌. -- where , select 여기저기저기 
+-- 검색을 '&_'로 검색하고 싶다면 
+-- like '%'  / like '_'  - escape 문자 : 특별한역할 - %문자0개이상, _문자1개
+-- 검색을 _%로 하고 싶은면 : like '$_$%' escape '$'
+set define off;
+select '&ㅁㅁㅁ' from dual;
+insert into dept values(80,'R&D','NEW YORK');
+set define on;
+select '&ㅁㅁㅁ' from dual;
 
 
 
