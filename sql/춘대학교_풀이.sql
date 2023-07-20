@@ -169,9 +169,12 @@ select count(*) cnt, class_no
 -- 수강인원 top3==> n-Top (class_no별)
 select * from
 (
+select tb1.*, rownum as rn from
+(
 select count(*) cnt, class_no    from tb_grade    group by class_no    order by cnt desc
-) 
-where rownum <=3
+)tb1
+)tb2
+where rn =3
 ;
 -- 수강인원을 구하기 전.. 최근 3년이라는 조건으로 걸러낸 후 수강인원을 구해야함.
 select count(*) cnt, class_no
