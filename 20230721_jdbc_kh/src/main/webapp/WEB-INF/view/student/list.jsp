@@ -12,9 +12,9 @@
 	<h2>학생 리스트</h2>
 	<%
 	// JSP Tag - java문법
-	String a = (String)request.getAttribute("aaa");
-	String b = (String)request.getAttribute("bbb");
-	int c = (int)request.getAttribute("ccc");
+	//String a = (String)request.getAttribute("aaa");
+	//String b = (String)request.getAttribute("bbb");
+	//int c = (int)request.getAttribute("ccc");
 	List<StudentVo> volist = (List<StudentVo>)request.getAttribute("studentList");
 	%>
 	<%-- <%= a %> --%>
@@ -33,8 +33,15 @@
 		%>
 		
 		<tr>
-			<td><a href="<%=request.getContextPath()%>/student/get?sno=<%=vo.getStudentNo() %>"><%=vo.getStudentNo() %></a></td>
-			<td><%=vo.getStudentName() %></td>
+			<td>
+			<a href="<%=request.getContextPath()%>/student/get?sno=<%=vo.getStudentNo() %>">
+			<%=vo.getStudentNo() %>
+			</a></td>
+			<td>
+			<a href="<%=request.getContextPath()%>/student/get?sno=<%=vo.getStudentNo() %>">
+			<%=vo.getStudentName() %>
+			</a>
+			</td>
 			<td><%=vo.getEntranceDate() %></td>
 		</tr>
 
