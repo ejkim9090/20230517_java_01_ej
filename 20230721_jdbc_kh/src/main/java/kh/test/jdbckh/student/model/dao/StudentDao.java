@@ -19,7 +19,18 @@ public class StudentDao {
 		System.out.println("DAO selectOneStudent() arg:"+ studentNo);
 
 		StudentVo result = null;
-		String query = "select * from tb_student where student_no = "+"'"+studentNo+"'";
+//		String query = "select * from tb_student join tb_department using(department_no) where student_no = "+"'"+studentNo+"'";
+//		String query = "select s.*, department_name from tb_student s join tb_department d on(s.department_no=d.department_no) where student_no ="+"'"+studentNo+"'";
+//		String query = "select s.* "
+//				+ " , (select department_name from tb_department where department_no=s.department_no) department_name "
+//				+ " from "
+//				+ " tb_student s where student_no ="+"'"+studentNo+"'";
+		String query = "select s.* "
+			+ " , (select department_name from tb_department where department_no=s.department_no) department_name "
+			+ " from "
+			+ " tb_student s where student_no = ?";  
+		// ? 위치홀더
+//		String query = "select * from tb_student join tb_department using(department_no) where student_no = ?";
 		
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -34,6 +45,9 @@ public class StudentDao {
 //				System.out.println("연결 성공");
 //			}
 			pstmt = conn.prepareStatement(query);
+			// pstmt 생성된 후  ---- execute실행하기 전
+			// 여기서 ? 위치홀더에 값넣기
+			pstmt.setString(1, studentNo);
 			rset = pstmt.executeQuery();
 			if(rset.next()) {
 				result = new StudentVo();
@@ -46,6 +60,7 @@ public class StudentDao {
 				result.setStudentName(rset.getString("student_Name"));
 				result.setStudentNo(rset.getString("student_No"));
 				result.setStudentSsn(rset.getString("Student_Ssn"));
+				result.setDepartmentName(rset.getString("Department_Name"));
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
