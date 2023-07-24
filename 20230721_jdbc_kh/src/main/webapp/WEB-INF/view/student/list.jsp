@@ -33,7 +33,7 @@
 		%>
 		
 		<tr>
-			<td><%=vo.getStudentNo() %></td>
+			<td><a href="<%=request.getContextPath()%>/student/get?sno=<%=vo.getStudentNo() %>"><%=vo.getStudentNo() %></a></td>
 			<td><%=vo.getStudentName() %></td>
 			<td><%=vo.getEntranceDate() %></td>
 		</tr>
