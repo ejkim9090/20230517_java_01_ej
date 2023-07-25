@@ -80,6 +80,9 @@ public class StudentDao {
 	// DB에서 tb_student 테이블의 있는 모든 내용을 읽어서 꺼냄.
 	public List<StudentVo> selectListStudent() {
 		List<StudentVo> result = null;
+		
+		String query= "select * from tb_student";
+		
 		Connection conn = null;
 		Statement stmt = null;
 		PreparedStatement pstmt = null;
@@ -88,14 +91,13 @@ public class StudentDao {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			// 2. Connection 객체 생성 // dbms와 연결
 			conn =  DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:xe", "kh", "kh");
-			if(conn != null) {
-				System.out.println("DB연결 성공!!!!!!!!!");
-			} else {
-				System.out.println("------ DB 연결 실패------");
-			}
+//			if(conn != null) {
+//				System.out.println("DB연결 성공!!!!!!!!!");
+//			} else {
+//				System.out.println("------ DB 연결 실패------");
+//			}
 			// 3. Statement/PrepareStatement 객체 생성 -conn 객체로부터 - query 문을 실어보냄
 //			stmt = conn.createStatement();
-			String query= "select * from tb_student";
 			pstmt = conn.prepareStatement(query);
 			// 4. query 문을 실행해달라고 함.- 그 결과값을 return 받음.
 			// select query 문이면 ResultSet 모양
@@ -103,8 +105,9 @@ public class StudentDao {
 			ResultSet rs = pstmt.executeQuery();
 			
 			// 5. ResultSet 에서 row(record)=한줄 읽어오기 위해 cursor(포인트)를 이동함.
-			result = new ArrayList<StudentVo>();
-			while(rs.next() == true) {
+			if(rs.next() ) {
+				result = new ArrayList<StudentVo>();
+				do {
 				//  한줄row/record 를 읽을 준비 완료
 				// 확인용도. System.out.println( rs.getString("STUDENT_NAME") );
 				StudentVo vo = new StudentVo();
@@ -117,6 +120,7 @@ public class StudentDao {
 				vo.setEntranceDate( rs.getDate("Entrance_Date") );
 				
 				result.add(vo);
+				}while(rs.next() == true);
 			}
 		
 		} catch (ClassNotFoundException e) {

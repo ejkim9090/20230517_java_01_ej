@@ -38,13 +38,15 @@ public class StudentListController extends HttpServlet {
 		StudentDao dao = new StudentDao(); 
 		List<StudentVo> result = null;
 		if(searchWord != null) {
-//			System.out.println("[ejkim] : "+searchWord);
 			result = dao.selectListStudent(searchWord);
 		} else {
 			result = dao.selectListStudent();
 		}
 		// 3. DB로부터 전달받은 데이터를 JSP에 전달함.
 		request.setAttribute("studentList", result);
+		if(searchWord != null) {
+			request.setAttribute("searchWord", searchWord);
+		}
 		// 4. JSP 파일 forward로 열기
 		request.getRequestDispatcher("/WEB-INF/view/student/list.jsp").forward(request, response);
 	}
