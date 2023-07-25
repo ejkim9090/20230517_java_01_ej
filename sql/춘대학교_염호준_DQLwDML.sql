@@ -24,3 +24,28 @@ select STUDENT_NO, STUDENT_NAME, s.DEPARTMENT_NO
 select * from TB_DEPARTMENT;
 desc TB_DEPARTMENT;
 desc TB_PROFESSOR;
+
+-- UI002 화면설계서 학생리스트-찾기 검색
+select * from tb_student where student_name like '%&검색어%' or student_address like '%&검색어%'
+;
+select * from tb_student where student_name like '%영%' or student_address like '%영%'
+;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
