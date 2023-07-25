@@ -10,6 +10,13 @@
 </head>
 <body>
 	<h2>학생 리스트</h2>
+	<div>
+		<form action="<%=request.getContextPath() %>/student/list" method="get">
+			<input type="search" name="searchWord">
+			<input type="submit" value="찾기">
+		</form>
+	</div>
+	 
 	<%
 	// JSP Tag - java문법
 	//String a = (String)request.getAttribute("aaa");
