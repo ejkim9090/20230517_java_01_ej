@@ -44,8 +44,10 @@ public class StudentService {
 		map.put("studentList", result);
 		return map;
 	}
+	// 페이징처리 + 검색
 	public Map<String, Object> selectListStudent(int currentPage, int pageSize, String searchWord ) {  // 페이징처리 + 검색
 		Connection conn = getConnection();
+		// 검색용 total Count
 		int totalCnt = dao.getSearchTotalCount(conn, searchWord);
 		List<StudentVo> result =  dao.selectListStudent(conn,currentPage, pageSize, totalCnt, searchWord);
 		close(conn);

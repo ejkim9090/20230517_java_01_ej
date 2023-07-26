@@ -243,7 +243,8 @@ public class StudentDao {
 		//  확인용 System.out.println(result);
 		return result;
 	}
-	public int getSearchTotalCount(Connection conn, String searchWord) {
+	
+	public int getSearchTotalCount(Connection conn, String searchWord) {// 검색용 total Count
 		int result = 0;// 총글개수
 		String queryTotalCnt= "select count(*) cnt from tb_student"
 				+ " where student_name like ? or student_address like ?";  

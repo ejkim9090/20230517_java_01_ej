@@ -66,8 +66,25 @@ if(volist == null || volist.size() == 0) {
 	</table>
 	<div>
 	<%
-	for(int i=1;i<=10;i++){
+	int startPageNum = (Integer)request.getAttribute("startPageNum");
+	int endPageNum = (Integer)request.getAttribute("endPageNum");
+	int currentPage = (Integer)request.getAttribute("currentPage");
+	int totalPageNum = (Integer)request.getAttribute("totalPageNum");
+	if(startPageNum != 1 && searchWord != null){
+		%>
+		<a href="<%=request.getContextPath()%>/student/list?pageNo=<%=startPageNum-1%>&searchWord=<%=searchWord%>"><span>이전</span></a>
+		,
+		<%
+	} else if(startPageNum != 1 && searchWord == null) {
+		%>
+		<a href="<%=request.getContextPath()%>/student/list?pageNo=<%=startPageNum-1%>"><span>이전</span></a>
+		,
+		<%
+	}
+	
+	for(int i=startPageNum;i<=endPageNum;i++){
 		if(searchWord != null){
+//			if(currentPage == i){	}
 		%>
 		<a href="<%=request.getContextPath()%>/student/list?pageNo=<%=i%>&searchWord=<%=searchWord%>"><span><%=i%></span></a>
 		,
@@ -79,6 +96,17 @@ if(volist == null || volist.size() == 0) {
 	<%
 		} // else
 	}  // for
+	if(endPageNum < totalPageNum  && searchWord != null){
+		%>
+		<a href="<%=request.getContextPath()%>/student/list?pageNo=<%=endPageNum+1%>&searchWord=<%=searchWord%>"><span>다음</span></a>
+		,
+		<%
+	} else if(endPageNum < totalPageNum  && searchWord == null){
+		%>
+		<a href="<%=request.getContextPath()%>/student/list?pageNo=<%=endPageNum+1%>"><span>다음</span></a>
+		,
+		<%
+	}
 	%>
 	</div>
 <%

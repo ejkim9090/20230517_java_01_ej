@@ -66,8 +66,17 @@ public class StudentListController extends HttpServlet {
 		int pageBlockSize = 5;
 		int totalCnt = (Integer)map.get("totalCnt");
 		int totalPageNum = totalCnt/pageSize + (totalCnt%pageSize == 0 ? 0 : 1);
-//		int startPageNum = ;
-//		int endPageNum = ;
+		int startPageNum = 1;
+		if((currentPage%pageBlockSize) == 0) {
+			startPageNum = ((currentPage/pageBlockSize)-1)*pageBlockSize +1;
+		} else {
+			startPageNum = ((currentPage/pageBlockSize))*pageBlockSize +1;
+		}
+		int endPageNum = (startPageNum+pageBlockSize > totalPageNum) ? totalPageNum : startPageNum+pageBlockSize-1;
+		request.setAttribute("totalPageNum", totalPageNum);
+		request.setAttribute("startPageNum", startPageNum);
+		request.setAttribute("endPageNum", endPageNum);
+		request.setAttribute("currentPage", currentPage);
 		
 		if(searchWord != null) {
 			request.setAttribute("searchWord", searchWord);
