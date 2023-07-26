@@ -16,6 +16,14 @@ import static kh.test.jdbckh.common.jdbc.JdbcTemplate.*;
 public class StudentDao {
 // PPT 내용구현
 	
+	public int insertStudent(Connection conn, StudentVo vo) {
+		int result = 0;
+		String query = "insert into tb_student "
+				+ " (STUDENT_NO,DEPARTMENT_NO,STUDENT_NAME,STUDENT_SSN, STUDENT_ADDRESS ,ENTRANCE_DATE, ABSENCE_YN, COACH_PROFESSOR_NO)"
+				+ " values(?,?,?,?,?,  ?,?,?)";
+		return result;
+	}
+	
 	// DB에서 tb_student 테이블의 전달받은 학번을 통해 학생1명의 상세정보를 읽어옴
 	public StudentVo selectOneStudent(Connection conn, String studentNo) {
 		System.out.println("DAO selectOneStudent() arg:"+ studentNo);

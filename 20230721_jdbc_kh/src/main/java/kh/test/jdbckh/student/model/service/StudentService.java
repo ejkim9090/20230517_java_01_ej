@@ -16,6 +16,14 @@ public class StudentService {
 	// commit/rollback/연결해제
 	private StudentDao dao = new StudentDao();
 	
+	public int insertStudent(StudentVo vo) {
+		int result = 0;
+		Connection conn = getConnection();
+		result = dao.insertStudent(conn, vo);
+		close(conn);
+		return result;
+	}
+	
 	public StudentVo selectOneStudent(String studentNo) {
 		Connection conn = getConnection();
 		StudentVo result = dao.selectOneStudent(conn,studentNo);

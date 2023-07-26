@@ -10,6 +10,7 @@
 </head>
 <body>
 	<h2>학생 리스트</h2>
+	<div><a href="<%=request.getContextPath() %>/student/insert">학생등록</a></div>
 	<div>
 		<form action="<%=request.getContextPath() %>/student/list" method="get">
 			<input type="search" name="searchWord">

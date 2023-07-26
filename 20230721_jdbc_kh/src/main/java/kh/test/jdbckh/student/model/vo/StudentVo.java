@@ -24,6 +24,31 @@ public class StudentVo {
 	private String departmentName;
 	
 
+	public StudentVo() {
+	}
+	public StudentVo(String studentNo, String departmentNo, String studentName, String studentSsn,
+			String studentAddress, String absenceYn, String coachProfessorNo) {
+		this.studentNo = studentNo;
+		this.departmentNo = departmentNo;
+		this.studentName = studentName;
+		this.studentSsn = studentSsn;
+		this.studentAddress = studentAddress;
+		this.absenceYn = absenceYn;
+		this.coachProfessorNo = coachProfessorNo;
+	}
+	public StudentVo(String studentNo, String departmentNo, String studentName, String studentSsn,
+			String studentAddress, Date entranceDate, String absenceYn, String coachProfessorNo,
+			String departmentName) {
+		this.studentNo = studentNo;
+		this.departmentNo = departmentNo;
+		this.studentName = studentName;
+		this.studentSsn = studentSsn;
+		this.studentAddress = studentAddress;
+		this.entranceDate = entranceDate;
+		this.absenceYn = absenceYn;
+		this.coachProfessorNo = coachProfessorNo;
+		this.departmentName = departmentName;
+	}
 	@Override
 	public String toString() {
 		return "StudentVo [studentNo=" + studentNo + ", departmentNo=" + departmentNo + ", studentName=" + studentName
