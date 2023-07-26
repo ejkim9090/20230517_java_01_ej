@@ -19,8 +19,27 @@ public class StudentDao {
 	public int insertStudent(Connection conn, StudentVo vo) {
 		int result = 0;
 		String query = "insert into tb_student "
-				+ " (STUDENT_NO,DEPARTMENT_NO,STUDENT_NAME,STUDENT_SSN, STUDENT_ADDRESS ,ENTRANCE_DATE, ABSENCE_YN, COACH_PROFESSOR_NO)"
-				+ " values(?,?,?,?,?,  ?,?,?)";
+				+ " (STUDENT_NO,DEPARTMENT_NO,STUDENT_NAME,STUDENT_SSN, STUDENT_ADDRESS "
+				+ "    ,ENTRANCE_DATE, ABSENCE_YN, COACH_PROFESSOR_NO)"
+				+ " values(?,?,?,?,?,  to_date(?, 'yyyy-mm-dd'),?,?)";
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, vo.getStudentNo());
+			pstmt.setString(2, vo.getDepartmentNo());
+			pstmt.setString(3, vo.getStudentName());
+			pstmt.setString(4, vo.getStudentSsn());
+			pstmt.setString(5, vo.getStudentAddress());
+			pstmt.setString(6, vo.getEntranceDate());
+			pstmt.setString(7, vo.getAbsenceYn());
+			pstmt.setString(8, vo.getCoachProfessorNo());
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		System.out.println("[student insert dao result]"+result);
 		return result;
 	}
 	
@@ -35,7 +54,8 @@ public class StudentDao {
 //				+ " , (select department_name from tb_department where department_no=s.department_no) department_name "
 //				+ " from "
 //				+ " tb_student s where student_no ="+"'"+studentNo+"'";
-		String query = "select s.* "
+//		STUDENT_NO,DEPARTMENT_NO,STUDENT_NAME,STUDENT_SSN, STUDENT_ADDRESS ,ENTRANCE_DATE, ABSENCE_YN, COACH_PROFESSOR_NO
+		String query = "select STUDENT_NO,DEPARTMENT_NO,STUDENT_NAME,STUDENT_SSN, STUDENT_ADDRESS ,to_char(ENTRANCE_DATE,'yyyy-mm-dd') ENTRANCE_DATE, ABSENCE_YN, COACH_PROFESSOR_NO "
 			+ " , (select department_name from tb_department where department_no=s.department_no) department_name "
 			+ " from "
 			+ " tb_student s where student_no = ?";  
@@ -57,7 +77,8 @@ public class StudentDao {
 				result.setAbsenceYn(rset.getString("Absence_Yn"));
 				result.setCoachProfessorNo(rset.getString("Coach_Professor_No"));
 				result.setDepartmentNo(rset.getString("Department_No"));
-				result.setEntranceDate(rset.getDate("Entrance_Date"));
+//				result.setEntranceDate(rset.getDate("Entrance_Date"));
+				result.setEntranceDate(rset.getString("Entrance_Date"));
 				result.setStudentAddress(rset.getString("Student_Address"));
 				result.setStudentName(rset.getString("student_Name"));
 				result.setStudentNo(rset.getString("student_No"));
@@ -79,7 +100,7 @@ public class StudentDao {
 	public List<StudentVo> selectListStudent(Connection conn) {  // 전체 보기
 		List<StudentVo> result = null;
 		
-		String query= "select * from tb_student";
+		String query= "select STUDENT_NO,DEPARTMENT_NO,STUDENT_NAME,STUDENT_SSN, STUDENT_ADDRESS ,to_char(ENTRANCE_DATE,'yyyy-mm-dd') ENTRANCE_DATE, ABSENCE_YN, COACH_PROFESSOR_NO from tb_student";
 		
 		Statement stmt = null;
 		PreparedStatement pstmt = null;
@@ -106,7 +127,8 @@ public class StudentDao {
 				vo.setAbsenceYn( rs.getString("Absence_Yn"));
 				vo.setCoachProfessorNo( rs.getString("Coach_Professor_No"));
 				vo.setStudentAddress( rs.getString("Student_Address"));
-				vo.setEntranceDate( rs.getDate("Entrance_Date") );
+//				vo.setEntranceDate( rs.getDate("Entrance_Date") );
+				vo.setEntranceDate( rs.getString("Entrance_Date") );
 				
 				result.add(vo);
 				}while(rs.next() == true);
@@ -125,7 +147,7 @@ public class StudentDao {
 	public List<StudentVo> selectListStudent(Connection conn, String searchWord) {  // 검색
 		List<StudentVo> result = null;
 		// 오류String query= "select * from tb_student where student_name like '%?%' or student_address like '%?%'";
-		String query= "select * from tb_student where student_name like ? or student_address like ?";
+		String query= "select STUDENT_NO,DEPARTMENT_NO,STUDENT_NAME,STUDENT_SSN, STUDENT_ADDRESS ,to_char(ENTRANCE_DATE,'yyyy-mm-dd') ENTRANCE_DATE, ABSENCE_YN, COACH_PROFESSOR_NO from tb_student where student_name like ? or student_address like ?";
 		// like 연산자인 경우 위치홀더? 대신 연결자
 //		String query= "select * from tb_student where student_name like '%"+searchWord+"%' or student_address like '%"+searchWord+"%'";
 		
@@ -158,7 +180,8 @@ public class StudentDao {
 				vo.setAbsenceYn( rs.getString("Absence_Yn"));
 				vo.setCoachProfessorNo( rs.getString("Coach_Professor_No"));
 				vo.setStudentAddress( rs.getString("Student_Address"));
-				vo.setEntranceDate( rs.getDate("Entrance_Date") );
+//				vo.setEntranceDate( rs.getDate("Entrance_Date") );
+				vo.setEntranceDate( rs.getString("Entrance_Date") );
 				
 				result.add(vo);
 			}
@@ -204,7 +227,7 @@ public class StudentDao {
 		String query= " select * from "
 				+ " (\r\n"
 				+ " select tb1.*, rownum rn from"
-				+ "    (select * from tb_student order by student_no asc) tb1"
+				+ "    (select STUDENT_NO,DEPARTMENT_NO,STUDENT_NAME,STUDENT_SSN, STUDENT_ADDRESS ,to_char(ENTRANCE_DATE,'yyyy-mm-dd') ENTRANCE_DATE, ABSENCE_YN, COACH_PROFESSOR_NO from tb_student order by student_no desc) tb1"
 				+ " ) tb2"
 				+ " where rn between ? and ?";
 		
@@ -237,7 +260,8 @@ public class StudentDao {
 				vo.setAbsenceYn( rs.getString("Absence_Yn"));
 				vo.setCoachProfessorNo( rs.getString("Coach_Professor_No"));
 				vo.setStudentAddress( rs.getString("Student_Address"));
-				vo.setEntranceDate( rs.getDate("Entrance_Date") );
+//				vo.setEntranceDate( rs.getDate("Entrance_Date") );
+				vo.setEntranceDate( rs.getString("Entrance_Date") );
 				
 				result.add(vo);
 			}
@@ -248,7 +272,8 @@ public class StudentDao {
 			close(pstmt);
 		}
 
-		//  확인용 System.out.println(result);
+		//  확인용 
+		System.out.println(result);
 		return result;
 	}
 	
@@ -287,9 +312,9 @@ public class StudentDao {
 		String query= " select * from "
 				+ " (\r\n"
 				+ " select tb1.*, rownum rn from"
-				+ "    (select * from tb_student"
+				+ "    (select STUDENT_NO,DEPARTMENT_NO,STUDENT_NAME,STUDENT_SSN, STUDENT_ADDRESS ,to_char(ENTRANCE_DATE,'yyyy-mm-dd') ENTRANCE_DATE, ABSENCE_YN, COACH_PROFESSOR_NO from tb_student"
 				+ " 			where student_name like ? or student_address like ?"
-				+ " 			order by student_no asc) tb1"
+				+ " 			order by student_no desc) tb1"
 				+ " ) tb2"
 				+ " where rn between ? and ?";
 		
@@ -326,7 +351,8 @@ public class StudentDao {
 				vo.setAbsenceYn( rs.getString("Absence_Yn"));
 				vo.setCoachProfessorNo( rs.getString("Coach_Professor_No"));
 				vo.setStudentAddress( rs.getString("Student_Address"));
-				vo.setEntranceDate( rs.getDate("Entrance_Date") );
+//				vo.setEntranceDate( rs.getDate("Entrance_Date") );
+				vo.setEntranceDate( rs.getString("Entrance_Date") );
 				
 				result.add(vo);
 			}

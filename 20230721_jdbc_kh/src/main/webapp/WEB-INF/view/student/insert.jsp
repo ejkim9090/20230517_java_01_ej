@@ -36,14 +36,16 @@
 					<td><input type="text" name="entranceDate"></td>
 				</tr>
 				<tr>
-					<th>absenceYn</th>
+					<td>absenceYn</td>
 					<td><input type="text" name="absenceYn"></td>
 				</tr>
 				<tr>
-					<th>coachProfessorNo</th>
+					<td>coachProfessorNo</td>
 					<td><input type="text" name="coachProfessorNo"></td>
 				</tr>
 			</table>
+			
+			<button type="submit">학생등록</button>
 		</form>
 	</div>
 </body>
