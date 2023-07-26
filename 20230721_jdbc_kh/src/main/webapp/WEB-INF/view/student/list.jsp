@@ -17,24 +17,24 @@
 		</form>
 	</div>
 	 
-	<%
-	// JSP Tag - java문법
-	List<StudentVo> volist = (List<StudentVo>)request.getAttribute("studentList");
-	String searchWord = (String)request.getAttribute("searchWord");
-	if(searchWord != null){
-		%>
+<%
+// JSP Tag - java문법
+List<StudentVo> volist = (List<StudentVo>)request.getAttribute("studentList");
+String searchWord = (String)request.getAttribute("searchWord");
+if(searchWord != null){
+%>
 		<h3><%=searchWord %> 검색결과</h3>
 		<h5><a href="<%=request.getContextPath() %>/student/list">전체보기</a></h5>
-		<%
-	}
-	if(volist == null || volist.size() == 0){
-	//if(volist == null){
-	//if (volist.size() == 0){
-	%>
+<%
+}
+if(volist == null || volist.size() == 0) {
+//if(volist == null) {
+//if (volist.size() == 0) {
+%>
 	<h2>결과물이 없습니다.</h2>
-	<%
-	} else {
-	%>
+<%
+} else {
+%>
 	<table border="1">
 		<tr>
 			<td>학번</td>
@@ -67,16 +67,23 @@
 	<div>
 	<%
 	for(int i=1;i<=10;i++){
+		if(searchWord != null){
+		%>
+		<a href="<%=request.getContextPath()%>/student/list?pageNo=<%=i%>&searchWord=<%=searchWord%>"><span><%=i%></span></a>
+		,
+		<%
+		} else {
 	%>
 		<a href="<%=request.getContextPath()%>/student/list?pageNo=<%=i%>"><span><%=i%></span></a>
 		,
 	<%
+		} // else
 	}  // for
 	%>
 	</div>
-	<%
-	}  //else
-	%>
+<%
+}  //else
+%>
 	
 </body>
 </html>

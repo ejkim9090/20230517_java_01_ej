@@ -7,6 +7,8 @@ create user c##scott identified by tiger;
 drop user c##scott;
 -- 21g xe 버젼 , "_ORACLE_SCRIPT"=true; 셋 해줘야함.
 alter session set "_ORACLE_SCRIPT"=true;
+create user test identified by test;
+
 create user kh identified by kh;
 create user scott identified by tiger;
 
@@ -23,7 +25,7 @@ grant connect, resource, dba to kh;
 revoke connect, resource from kh;
 grant connect, resource to scott, kh;
 -- 21g xe 버젼 , dba 추가
-grant connect, resource, dba to scott, kh;
+grant connect, resource, dba to scott, kh, test;
 
 --create table emp
 --create user scott
