@@ -7,6 +7,15 @@ create user c##scott identified by tiger;
 drop user c##scott;
 -- 21g xe 버젼 , "_ORACLE_SCRIPT"=true; 셋 해줘야함.
 alter session set "_ORACLE_SCRIPT"=true;
+-- semi 수업실습 계정
+create user khl identified by khl;
+grant connect, resource, dba to khl;
+-- finale 수업실습 계정
+create user khlfinal identified by khlfinal;
+grant connect, resource, dba to khlfinal;
+
+
+
 create user test identified by test;
 
 create user kh identified by kh;
