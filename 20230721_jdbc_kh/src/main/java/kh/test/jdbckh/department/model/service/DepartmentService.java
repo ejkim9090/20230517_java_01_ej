@@ -63,7 +63,8 @@ public class DepartmentService {
 	public List<DepartmentDto> selectList(int currentPage, int pageSize, String searchWord){
 		List<DepartmentDto> result = null;
 		Connection conn = getConnection();
-		result = dao.selectList(conn, currentPage, pageSize, searchWord);
+		int totalCount = getTotalCount(searchWord);
+		result = dao.selectList(conn, currentPage, pageSize, totalCount, searchWord);
 		close(conn);
 		return result;
 	}

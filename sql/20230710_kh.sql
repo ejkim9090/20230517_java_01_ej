@@ -689,6 +689,40 @@ SELECT DEPT_code, EMP_ID, SALARY
 DESC EMPLOYEE;
 
 
+select * from tb_student where student_no = 'A113070'
+;
+select s.*, (select department_name from tb_department where department_no=s.department_no) department_name
+from tb_student s where student_no = 'A113070'
+;
+
+select * from tb_student join tb_department using(department_no) where student_no ='A213026'
+;
+select s.*, department_name  
+from tb_student s join tb_department d on(s.department_no=d.department_no) where student_no ='A213026'
+;
+select * from tb_student where student_name like '%영%' or student_address like '%영%'
+;
+
+desc tb_department;
+
+select DEPARTMENT_NO, DEPARTMENT_NAME, CATEGORY, OPEN_YN, CAPACITY from tb_department
+order by OPEN_YN desc, CATEGORY, DEPARTMENT_NAME 
+;
+select * from tb_student order by student_no desc;
+select current_timestamp from dual;
+select SYSTIMESTAMP from dual;
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
