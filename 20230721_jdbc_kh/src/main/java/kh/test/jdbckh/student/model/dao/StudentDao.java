@@ -310,7 +310,7 @@ public class StudentDao {
 	public List<StudentVo> selectListStudent(Connection conn, int currentPage, int pageSize, int totalCnt , String searchWord) {  // 페이징처리+검색
 		List<StudentVo> result = new ArrayList<StudentVo>();
 		String query= " select * from "
-				+ " (\r\n"
+				+ " ( "
 				+ " select tb1.*, rownum rn from"
 				+ "    (select STUDENT_NO,DEPARTMENT_NO,STUDENT_NAME,STUDENT_SSN, STUDENT_ADDRESS ,to_char(ENTRANCE_DATE,'yyyy-mm-dd') ENTRANCE_DATE, ABSENCE_YN, COACH_PROFESSOR_NO from tb_student"
 				+ " 			where student_name like ? or student_address like ?"
