@@ -21,7 +21,7 @@ public class BoardService {
 	// 한 행 읽기 - PK로where조건
 	public BoardDto selectOne(int bno){
 		BoardDto result = null;
-		Connection conn = getConnection();
+		Connection conn = getConnectionKhl();
 		result = dao.selectOne(conn, bno);
 		close(conn);
 		return result;
