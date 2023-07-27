@@ -28,7 +28,24 @@ public class JdbcTemplate {
 		}
 		return conn;
 	}
-
+	public static Connection getConnectionKhl() {
+		try {
+			// 1. driver 있다면 로딩함. // 없다면 ClassNotFoundException 오류 발생
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			// 2. Connection 객체 생성 // dbms와 연결
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:xe","khl","khl");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		if(conn!=null) {
+			System.out.println("DB 연결 성공");
+		}else {
+			System.out.println("!!!!!!!!!!!DB 연결 실패!!!!!!!!!!!!!!!!!");
+		}
+		return conn;
+	}
 	public static void close(Connection con) {
 		try {
 			if(con!=null) {

@@ -10,7 +10,7 @@ alter session set "_ORACLE_SCRIPT"=true;
 -- semi 수업실습 계정
 create user khl identified by khl;
 grant connect, resource, dba to khl;
--- finale 수업실습 계정
+-- final 수업실습 계정
 create user khlfinal identified by khlfinal;
 grant connect, resource, dba to khlfinal;
 
