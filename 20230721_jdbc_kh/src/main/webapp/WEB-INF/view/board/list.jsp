@@ -1,7 +1,7 @@
-<%@page import="kh.test.jdbckh.board.model.dto.BoardDto"%>
-<%@page import="java.util.List"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page import="kh.test.jdbckh.board.model.dto.BoardDto"%>
+<%@ page import="java.util.List"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,8 +13,7 @@
 }
 .wrap-grid{
 	display:grid;
-	grid-template-columns: 1 5 2 2;
-	
+	grid-template-columns: auto auto auto auto;
 }
 </style>
 </head>

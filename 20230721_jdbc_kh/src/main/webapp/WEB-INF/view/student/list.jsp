@@ -1,7 +1,13 @@
 <%@page import="kh.test.jdbckh.student.model.vo.StudentVo"%>
 <%@page import="java.util.List"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@page language="java" contentType="text/html; charset=UTF-8"    pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%!
+// 함수 만들어 사용할 수 있음.-- taglib 에 넣어두고 사용하는 경우가 많음
+int sum( int a, int b){
+	return a+b;
+}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,7 +23,28 @@
 			<input type="submit" value="찾기">
 		</form>
 	</div>
-	 
+<c:if test="${not empty searchWord }">
+	<h3>${searchWord } 검색결과</h3>
+	<h5><a href="/student/list">전체보기</a></h5>
+</c:if>
+<c:if test="${not empty studentList }">
+	<c:forEach items="${studentList }" var="item">
+		<tr>
+			<td>
+			<a href="<%=request.getContextPath()%>/student/get?sno=${item.studentNo } %>">
+			${item.studentNo }
+			</a></td>
+			<td>
+			<a href="<%=request.getContextPath()%>/student/get?sno=${item.studentNo }">
+			${item.studentName }
+			</a>
+			</td>
+			<td>${item.entranceDate }</td>
+			<td>${item.studentAddress }</td>
+		</tr>
+	</c:forEach>
+</c:if>
+
 <%
 // JSP Tag - java문법
 List<StudentVo> volist = (List<StudentVo>)request.getAttribute("studentList");
