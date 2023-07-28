@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import kh.test.jdbckh.board.model.dao.BoardService;
 import kh.test.jdbckh.board.model.dto.BoardDto;
+import kh.test.jdbckh.board.model.service.BoardService;
 
 /**
  * Servlet implementation class BoardListServlet
@@ -18,13 +18,6 @@ import kh.test.jdbckh.board.model.dto.BoardDto;
 @WebServlet("/board/list")
 public class BoardListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public BoardListServlet() {
-        super();
-    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
