@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import kh.test.jdbckh.board.model.dao.BoardDao;
 import kh.test.jdbckh.board.model.service.BoardService;
+import kh.test.jdbckh.student.model.service.StudentService;
 
 /**
  * Servlet implementation class ElTestController
@@ -20,6 +21,7 @@ public class ElTestController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setAttribute("a1", "aaa");
 		request.setAttribute("volist", new BoardService().selectList());
+		request.setAttribute("vo", new StudentService().selectOneStudent("A213046"));
 		request.getRequestDispatcher("/WEB-INF/view/eltest.jsp").forward(request, response);
 	}
 
