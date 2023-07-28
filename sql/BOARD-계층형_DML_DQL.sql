@@ -49,6 +49,14 @@ insert into BOARD values (SEQ_BOARD_BNO.nextval, '&n글 제목', '&n글 내용',
     , (select bre_step+1 from board where bno='&n글')
     ) ;
 
+-- JDBC
+--원본글
+--insert into BOARD values (SEQ_BOARD_BNO.nextval, ?, ?, default, ?, SEQ_BOARD_BNO.nextval, 0,0)
+-- n 글의 답글
+--update board set BRE_STEP = BRE_STEP + 1 where BRE_STEP > (select bre_step from board where bno=?)  and BREF = (select bref from board where bno=?)
+--insert into BOARD values (SEQ_BOARD_BNO.nextval, ?, ?, default, ?    , (select bref from board where bno=?)    , (select bre_level+1 from board where bno=?)    , (select bre_step+1 from board where bno=?)    )
+    
+    
 desc board;
 ------ UI설계서 UI007 게시글 목록 
 select BNO, BTITLE, to_char(BWRITE_DATE, 'yyyy-mm-dd hh24:mi:ss') BWRITE_DATE, MID, BREF, BRE_LEVEL, BRE_STEP

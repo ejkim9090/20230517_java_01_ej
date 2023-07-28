@@ -63,7 +63,19 @@ public class BoardDao {
 	public int insert(Connection conn, BoardDto dto) {
 		System.out.println("[Board Dao insert] dto:" + dto);
 		int result = 0;
-		// TODO
+		String query = "insert into BOARD values (SEQ_BOARD_BNO.nextval, ?, ?, default, ?, SEQ_BOARD_BNO.nextval, 0,0)";
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, dto.getBtitle());
+			pstmt.setString(2, dto.getBcontent());
+			pstmt.setString(3, dto.getMid());
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
 		System.out.println("[Board Dao insert] return:" + result);
 		return result;
 	}
