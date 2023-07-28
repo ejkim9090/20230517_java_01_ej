@@ -18,8 +18,8 @@
 </style>
 </head>
 <body>
-	[[초기 확인용 <%=request.getAttribute("boardList") %>]]
 	<h2>게시글</h2>
+	<div><a href="<%=request.getContextPath()%>/board/insert">새글등록</a></div>
 	<div class="wrap-grid">
 		<div>번호</div>
 		<div>제목</div>

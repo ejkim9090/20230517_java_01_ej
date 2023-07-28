@@ -2,6 +2,7 @@
 <%@page import="java.util.List"%>
 <%@page language="java" contentType="text/html; charset=UTF-8"    pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%!
 // 함수 만들어 사용할 수 있음.-- taglib 에 넣어두고 사용하는 경우가 많음
 int sum( int a, int b){
@@ -81,7 +82,7 @@ int sum( int a, int b){
 	</c:choose>
 	,
 </c:forEach>
-<c:if test="${endPageNum < totalPageNum }">
+<c:if test="${endPageNum < totalPageNum}">
 <c:choose>
 	<c:when test="${not empty searchWord }">
 		<a href="<%=request.getContextPath()%>/student/list?pageNo=${endPageNum+1}&searchWord=${searchWord }"><span>다음</span></a>
