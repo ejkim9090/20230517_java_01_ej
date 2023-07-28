@@ -63,13 +63,23 @@ public class BoardDao {
 	public int insert(Connection conn, BoardDto dto) {
 		System.out.println("[Board Dao insert] dto:" + dto);
 		int result = 0;
-		String query = "insert into BOARD values (SEQ_BOARD_BNO.nextval, ?, ?, default, ?, SEQ_BOARD_BNO.nextval, 0,0)";
+		String query = "";
+		if(dto.getBno() == 0) { // 원본글작성
+		query = "insert into BOARD values (SEQ_BOARD_BNO.nextval, ?, ?, default, ?, SEQ_BOARD_BNO.nextval, 0,0)";
+		} else {  //답글
+		query = "insert into BOARD values (SEQ_BOARD_BNO.nextval, ?, ?, default, ?    , (select bref from board where bno=?)    , (select bre_level+1 from board where bno=?)    , (select bre_step+1 from board where bno=?)    )";
+		}
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, dto.getBtitle());
 			pstmt.setString(2, dto.getBcontent());
 			pstmt.setString(3, dto.getMid());
+			if(dto.getBno() != 0) { // 답글
+			pstmt.setInt(4, dto.getBno());
+			pstmt.setInt(5, dto.getBno());
+			pstmt.setInt(6, dto.getBno());
+			}
 			result = pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -79,12 +89,44 @@ public class BoardDao {
 		System.out.println("[Board Dao insert] return:" + result);
 		return result;
 	}
-
+	public int insertReply(Connection conn, BoardDto dto) {
+		System.out.println("[Board Dao insertReply] dto:" + dto);
+		int result = 0;
+		String query = "insert into BOARD values (SEQ_BOARD_BNO.nextval, ?, ?, default, ?    , (select bref from board where bno=?)    , (select bre_level+1 from board where bno=?)    , (select bre_step+1 from board where bno=?)    )";
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, dto.getBtitle());
+			pstmt.setString(2, dto.getBcontent());
+			pstmt.setString(3, dto.getMid());
+			pstmt.setInt(4, dto.getBno());
+			pstmt.setInt(5, dto.getBno());
+			pstmt.setInt(6, dto.getBno());
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
+		System.out.println("[Board Dao insertReply] return:" + result);
+		return result;
+	}
 	// 한 행 수정 - BoardDto 또는 경우에 따라서 특정 컬럼값만 받아오기도 함.
 	public int update(Connection conn, BoardDto dto) {
 		System.out.println("[Board Dao update] dto:" + dto);
-		int result = 0;
-		// TODO
+		int result = -1;  // update 경우 0도 정상 결과값일 수 있으므로 -1을 초기값
+		String query = "update board set BRE_STEP = BRE_STEP + 1 where BRE_STEP > (select bre_step from board where bno=?)  and BREF = (select bref from board where bno=?)";
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, dto.getBno());
+			pstmt.setInt(2, dto.getBno());
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			close(pstmt);
+		}
 		System.out.println("[Board Dao update] return:" + result);
 		return result;
 	}

@@ -2,6 +2,9 @@ package kh.test.jdbckh.board.model.service;
 
 import static kh.test.jdbckh.common.jdbc.JdbcTemplate.close;
 import static kh.test.jdbckh.common.jdbc.JdbcTemplate.getConnectionKhl;
+import static kh.test.jdbckh.common.jdbc.JdbcTemplate.setAutoCommit;
+import static kh.test.jdbckh.common.jdbc.JdbcTemplate.commit;
+import static kh.test.jdbckh.common.jdbc.JdbcTemplate.rollback;
 
 import java.sql.Connection;
 import java.util.List;
@@ -31,7 +34,20 @@ public class BoardService {
 	public int insert(BoardDto dto){
 		int result = 0;
 		Connection conn = getConnectionKhl();
-		result = dao.insert(conn, dto);
+		setAutoCommit(conn, false);
+		if(dto.getBno() == 0) { // 원본글작성
+			result = dao.insert(conn, dto);
+		}else {   // 답글작성
+			result = dao.update(conn, dto);
+			if(result > -1) {
+				result = dao.insert(conn, dto);
+			}
+		}
+		if(result > 0) {
+			commit(conn);
+		} else {
+			rollback(conn);
+		}
 		close(conn);
 		return result;
 	}
