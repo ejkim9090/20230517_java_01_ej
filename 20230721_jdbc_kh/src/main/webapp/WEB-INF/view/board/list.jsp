@@ -16,6 +16,9 @@
 </style>
 </head>
 <body>
+<div>
+<a href="<%=request.getContextPath()%>/login">로그인</a>
+</div>
 	<h2>게시글</h2>
 	<div><a href="<%=request.getContextPath()%>/board/insert">새글등록</a></div>
 	<div class="wrap-grid">
