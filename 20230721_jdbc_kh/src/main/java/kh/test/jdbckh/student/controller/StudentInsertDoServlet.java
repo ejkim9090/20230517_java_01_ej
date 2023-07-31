@@ -31,9 +31,9 @@ public class StudentInsertDoServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 한글 깨짐 방지 --> TODO filter
-		request.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html; charset=UTF-8");
-		response.setCharacterEncoding("UTF-8");
+//		request.setCharacterEncoding("UTF-8");
+//		response.setContentType("text/html; charset=UTF-8");
+//		response.setCharacterEncoding("UTF-8");
 		String studentNo = request.getParameter("studentNo");
 		String departmentNo = request.getParameter("departmentNo");
 		String studentName = request.getParameter("studentName");

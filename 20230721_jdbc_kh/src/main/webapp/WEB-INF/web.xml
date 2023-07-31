@@ -1,7 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" version="4.0">
-  <display-name>20230721_jdbc_kh</display-name>
-  <welcome-file-list>
-    <welcome-file>index.jsp</welcome-file>
-  </welcome-file-list>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
+	version="4.0">
+	<display-name>20230721_jdbc_kh</display-name>
+	<!-- DB 없이 열릴수 있는 첫페이지에 사용가능함.
+	<welcome-file-list>
+		<welcome-file>/WEB-INF/view/student/list.jsp</welcome-file>
+	</welcome-file-list>
+	-->
+
+	<!-- 프로젝트 전체에서 중요한 url / class <servlet> <servlet-name>/a1</servlet-name> 
+		<servlet-class>kh.test.jdbckh.el.controller.ElTestController</servlet-class> 
+		</servlet> <servlet> <servlet-name>/a2</servlet-name> <servlet-class>kh.test.jdbckh.el.controller.ElTestController</servlet-class> 
+		</servlet> -->
+
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>*.css</url-pattern>
+		<url-pattern>*.js</url-pattern>
+		<url-pattern>*.jpg</url-pattern>
+		<url-pattern>*.png</url-pattern>
+		<url-pattern>*.svg</url-pattern>
+		<url-pattern>*.ico</url-pattern>
+		<url-pattern>*.swf</url-pattern>
+	</servlet-mapping>
+
+	<filter>
+		<filter-name>EncodingFilter</filter-name>
+		<filter-class>kh.test.jdbckh.common.filter.EncodingFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>EncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>PasswordFilter</filter-name>
+		<filter-class>kh.test.jdbckh.common.filter.PasswordFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>PasswordFilter</filter-name>
+		<url-pattern>*.login</url-pattern>
+	</filter-mapping>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </web-app>
