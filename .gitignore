@@ -3,6 +3,8 @@
 bin/
 build/
 .metadata/
+properties/
+*.properties
 
 # Log file
 *.log
