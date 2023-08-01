@@ -25,7 +25,27 @@ public class DepartmentDao {
 	public DepartmentDto selectOne(Connection conn, String departmentNo){
 		System.out.println("[Dept Dao selectOne] departmentNo:"+departmentNo);
 		DepartmentDto result = null;
-		//TODO
+		String query = "select DEPARTMENT_NO, DEPARTMENT_NAME, CATEGORY, OPEN_YN, CAPACITY from tb_Department"
+					+ " where DEPARTMENT_NO = ?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, departmentNo);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				result = new DepartmentDto(rs.getString("DEPARTMENT_NO"), 
+						rs.getString("DEPARTMENT_NAME"), 
+						rs.getString("CATEGORY"), 
+						rs.getString("OPEN_YN"), 
+						rs.getInt("CAPACITY"));
+			}					
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}
 		System.out.println("[Dept Dao selectOne] return:"+result);
 		return result;
 	}

@@ -11,6 +11,17 @@ public class DepartmentDto {
 	private String category;
 	private String openYn;
 	private Integer capacity;
+	
+	
+	public DepartmentDto() {
+	}
+	public DepartmentDto(String departmentNo, String departmentName, String category, String openYn, Integer capacity) {
+		this.departmentNo = departmentNo;
+		this.departmentName = departmentName;
+		this.category = category;
+		this.openYn = openYn;
+		this.capacity = capacity;
+	}
 	@Override
 	public String toString() {
 		return "DepartmentDto [departmentNo=" + departmentNo + ", departmentName=" + departmentName + ", category="
