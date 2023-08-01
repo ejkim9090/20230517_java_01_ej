@@ -1,0 +1,34 @@
+    .wrap.header{
+        background: bisque;
+    }
+    .wrap.content{
+        background: beige;
+    }
+    .wrap.footer{
+        background: bisque;
+    }
+    header, #content, footer{
+        box-sizing: border-box;
+        
+        /* 중앙정렬 */
+        width: 960px; margin: 0 auto;
+    }
+    #content{
+         /* 2. float 배치- 한것으로 height 계산 못하므로 overflow hidden 설정 */
+        overflow: hidden;
+    }
+    /* section */
+    section{
+        /* 2. float 배치 */
+        width: 754px; float: left;
+    }
+    /* aside */
+    aside{
+        /* 2. float 배치 */
+        width: 194px; float: right;
+    }
+    article{
+        padding: 5px;
+        border: 1px solid black;
+        margin: 10px 10px 10px 0;
+    }

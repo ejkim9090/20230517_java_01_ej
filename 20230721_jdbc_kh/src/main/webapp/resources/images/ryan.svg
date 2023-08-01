@@ -1,0 +1,67 @@
+<svg id="mySvg" width="200" height="500" xmlns="http://www.w3.org/2000/svg">
+	
+	<!-- 몸 전체 (팔 다리 등) -->
+	<g>
+		<!-- 몸통 -->
+		<rect x="65" y="180" width="70" height="85" fill="#e5e"/>
+		<!-- 왼 팔 -->
+		<path d="M65 180
+				 C43 205 47 225 49 235
+				 C49 235 51 253 53 253
+				 C53 257 69 257 78 253
+				 "
+				 fill="#d6982a" stroke="#060202" stroke-width="4"
+		/>
+		<!-- 오른 팔-->
+		<path d="M135 180
+				 C157 205 153 225 151 235
+				 C151 235 149 253 147 253
+				 C147 257 131 257 122 253
+				 "
+				fill="#d6982a" stroke="#060202" stroke-width="4"
+		/>
+		<!-- 왼 발 -->
+		<path d="M65 210
+				 C65 270 65 274 66 275
+				 C66 275 72 305 94 285
+				 C95 285 96 264 93 265
+				 "
+			  fill="#d6982a" stroke="#060202" stroke-width="4"
+		/>
+		<!-- 오른 발 -->
+		<path d="M135 210
+				 C135 270 135 274 134 275
+				 C134 275 128 305 106 285
+				 C105 285 104 264 107 265
+				 "
+			  fill="#d6982a" stroke="#060202" stroke-width="4"
+		/>
+		<!-- 다리 연결 -->
+		<rect x="87" y="263" rx="4" ry="4" width="26" height="4" fill="#060202" />
+		
+		<!-- 배! 무늬! -->
+		<ellipse cx="100" cy="227" rx="25" ry="27" fill="#fff"/>
+		<g transform="rotate(45)">
+			<rect x="205" y="74" width="11" height="11" fill="#d6982a" />
+			<rect x="215" y="63" width="11" height="11" fill="#d6982a" />
+			<rect x="205" y="64" width="11" height="11" fill="#d6982a" />
+		</g>
+	</g>
+	
+	<!-- 얼굴 -->
+	<circle class="ears" r="20" cx="60" cy="70" fill="#d6982a" stroke="#060202" stroke-width="4" />
+	<circle class="ears" r="20" cx="140" cy="70" fill="#d6982a" stroke="#060202" stroke-width="4" />
+	
+	<circle r="70" cx="100" cy="120" stroke="#060202" stroke-width="4" fill="#d6982a"/>
+	<rect width="35" height="5" rx="3" ry="3" fill="#060202" x="50" y="100" stroke-width="5" />
+	<rect width="35" height="5" rx="3" ry="3" fill="#060202" x="110" y="100" stroke-width="5" />
+	<circle class="eyes" r="6" cx="68" cy="119" fill="#060202"/>
+	<circle class="eyes" r="6" cx="128" cy="119" fill="#060202"/>
+	
+	<rect class="nose" width="20" height="20" x="79" y="133" rx="30" ry="20" stroke="#060202" stroke-width="4" fill="#fff"/>
+	<rect class="nose" width="20" height="20" x="98" y="133" rx="30" ry="20" stroke="#060202" stroke-width="4" fill="#fff"/>
+	<rect width="10" height="10" x="162" y="29" fill="#fff" transform="rotate(45)"/>
+	<rect width="10" height="10" x="169" y="22" fill="#fff" transform="rotate(45)"/>
+	<rect class="nose" width="15" height="15" x="91" y="128" rx="30" ry="20" fill="#060202"/>
+</svg>
+			 

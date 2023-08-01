@@ -17,7 +17,27 @@
 </head>
 <body>
 <div>
-<a href="<%=request.getContextPath()%>/login">로그인</a>
+[ <%= request.getSession().getAttribute("SsLoginId") %> ] <hr>
+[ <%= session.getAttribute("SsLoginId") %> ] <hr>
+[ ${SsLoginId } ] <hr>
+[ ${session.SsLoginId } ] <hr>
+[ EL내장객체명 : ${sessionScope.SsLoginId } ] <hr>
+[ ${successMsg } ] <hr>
+[ ${successFailMsg } ] <hr>
+<script>
+	var msg = '${successFailMsg}';
+	if(msg){
+		alert(msg);
+	}
+</script>
+<c:choose>
+	<c:when test="${not empty SsLoginId }">
+<a href="${pageContext.request.contextPath}/logout">로그아웃</a>
+	</c:when>
+	<c:otherwise>
+<a href="${pageContext.request.contextPath}/login">로그인</a>
+	</c:otherwise>
+</c:choose>
 </div>
 	<h2>게시글</h2>
 	<div><a href="<%=request.getContextPath()%>/board/insert">새글등록</a></div>

@@ -1,0 +1,66 @@
+    aside{
+        margin-top: 10px;
+    }
+    aside input[type=radio]{
+        display: none;
+    }
+    .items .tab-item{
+        display: none;
+    }
+    aside input[type=radio]:nth-of-type(1):checked ~ .items .tab-item:nth-of-type(1) {
+        display: block;
+    }
+    aside input[type=radio]:nth-of-type(2):checked ~ .items .tab-item:nth-of-type(2) {
+        display: block;
+    }
+    aside .labels {
+        overflow: hidden;
+    }
+    aside .labels > label { 
+        width: 50%; display: block; float: left;
+        color: white;
+        background-color: black;
+        text-align: center;
+        height: 30px;  line-height: 30px;
+        border: 1px solid black; box-sizing: border-box;
+    }
+    aside input[type=radio]:nth-of-type(1):checked ~ .labels label:nth-of-type(1) {
+        background-color: white;
+        color: black;
+    }
+    aside input[type=radio]:nth-of-type(2):checked ~ .labels label:nth-of-type(2) {
+        background-color: white;
+        color: black;
+    }
+    aside .items li{
+        /*         
+        border-bottom: 1px solid black;
+        border-left: 1px solid black;
+        border-right: 1px solid black; 
+        */
+        /*
+        border: 1px solid black;
+        border-top: 0;
+        */
+        border-color: black;
+        border-style: solid;
+        border-width: 0 1px 1px 1px;
+        padding: 5px;
+    }
+    aside .items li {
+        overflow: hidden;
+    }
+    aside .items li  div{
+        float: left;
+    }
+    aside .items li .descript p {
+        /* 말줄임  속성 start */
+        text-overflow: ellipsis; 
+        white-space: nowrap;
+        width: 120px; 
+        overflow: hidden;
+        /* 말줄임  속성 end */
+    }
+    aside .items li .thumnail {
+        margin-right: 5px;
+    }

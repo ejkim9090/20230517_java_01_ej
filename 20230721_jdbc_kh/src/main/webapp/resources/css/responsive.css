@@ -1,0 +1,95 @@
+@charset "UTF-8";
+@media (min-width:1px) {
+    *:not(a)  {
+        font-size: 0.6em;
+    }
+    body{
+        background-color: antiquewhite;
+    }
+    #flex_wrap{
+        flex-direction: column;
+    }
+}
+@media (min-width:800px) {
+    *:not(a)  {
+        font-size: 0.7em;
+    }
+    body{
+        background-color: antiquewhite;
+    }
+    #flex_wrap{
+        flex-direction: column;
+    }
+    /* section */
+    section{
+        /* 2. float 배치 */
+        width: 100%;
+    }
+    /* aside */
+    aside{
+        width: 100%;
+    }
+}
+@media (min-width:1000px) {
+    *:not(a)  {
+        font-size: 0.8em;
+    }
+    body{
+        background-color: beige;
+    }
+    #flex_wrap{
+        flex-direction: row;
+    }
+    /* section */
+    section{
+        /* 2. float 배치 */
+        width: 754px; float: left;
+    }
+    /* aside */
+    aside{
+        /* 2. float 배치 */
+        width: 194px; float: right;
+    }
+}
+@media (min-width:1200px) {
+    *:not(a)  {
+        font-size: 1.0em;
+    }
+    body{
+        background-color: beige;
+    }
+    #flex_wrap{
+        flex-direction: row;
+    }
+    /* section */
+    section{
+        /* 2. float 배치 */
+        width: 754px; float: left;
+    }
+    /* aside */
+    aside{
+        /* 2. float 배치 */
+        width: 194px; float: right;
+    }
+}
+@media (min-width:1500px) {
+    * {
+        font-size: 1.2em;
+    }
+    body{
+        background-color: beige;
+    }
+    #flex_wrap{
+        flex-direction: row;
+    }
+    /* section */
+    section{
+        /* 2. float 배치 */
+        width: 754px; float: left;
+    }
+    /* aside */
+    aside{
+        /* 2. float 배치 */
+        width: 194px; float: right;
+    }
+}

@@ -1,0 +1,53 @@
+article#table_wrap table {
+    width: 100%;
+}
+article#table_wrap th, article#table_wrap td {
+    text-align: center;
+    width: 20%;
+    padding: 5px 0;
+}
+article#table_wrap .table-content {
+    /* td/th 는 default vertical-align: middle */
+    vertical-align: top;
+    height: 50px;
+}
+article > .flex_wrap, article .flex-category,article .flex-content-items, article .flex-content-follow {
+    display: flex;
+}
+article > .flex_wrap > div img.default-img{
+    width: 100%;
+}
+article > .flex_wrap > div{
+    border : 1px solid black;
+    margin: 5px 3px;
+}
+article .flex-category > div{
+    margin: 0 2px;
+    padding: 3px 5px;
+    /* var(변수명) */
+    background-color: var(--blue);
+    border-radius: 5px;
+}
+article > #grid_wrap{
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    row-gap: 5px;
+    column-gap: 3px;
+}
+article > #grid_wrap > div img.default-img{
+    width: 100%;
+    rotate: 270deg;
+}
+
+article .mission_a h2 a {
+    font-size: 2rem !important; 
+    text-decoration: none;
+}
+article .mission_a h2 a:hover::after {
+    content: '뒤에 글이 붙어나옴';
+    color: red;
+    background-color: azure;
+    margin-left: 50px;
+    /* position: absolute;
+    left: 50px; */
+}

@@ -1,0 +1,20 @@
+    header ul{
+        overflow: hidden;
+    }
+    header ul>li{
+        float: left;
+    }
+    header {
+        position: relative; height: 120px;
+    }
+    header > #logo {
+        position: absolute;  left: 20px; top: 30px;
+        font-family: 'Nanum Pen Script', cursive;
+    }
+    #main_gnb {
+        position: absolute;  right: 0; top: 0;
+    }
+    #main_lnb {
+        position: absolute;  right: 0; bottom: 10px;
+    }
+    #main_gnb>ul>li, #main_lnb>ul>li {float: left;}
