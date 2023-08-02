@@ -16,8 +16,34 @@ public class DepartmentDao {
 	// 모든 행 읽기
 	public List<DepartmentDto> selectList(Connection conn){
 		System.out.println("[Dept Dao selectList]");
+		String query = "select DEPARTMENT_NO, DEPARTMENT_NAME, CATEGORY, OPEN_YN, CAPACITY from tb_department";
 		List<DepartmentDto> result = null;
-		//TODO
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next() == true) {
+//				DEPARTMENT_NO
+//				DEPARTMENT_NAME
+//				CATEGORY
+//				OPEN_YN
+//				CAPACITY
+				DepartmentDto dto = new DepartmentDto();
+				dto.setDepartmentNo( rs.getString("DEPARTMENT_NO"));
+				dto.setDepartmentName( rs.getString("DEPARTMENT_NAME"));
+				dto.setCategory( rs.getString("CATEGORY"));
+				dto.setOpenYn( rs.getString("OPEN_YN"));
+				dto.setCapacity( rs.getInt("CAPACITY"));
+				result.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
 		System.out.println("[Dept Dao selectList] return:"+result);
 		return result;
 	}

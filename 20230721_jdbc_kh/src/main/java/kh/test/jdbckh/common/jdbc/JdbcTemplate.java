@@ -71,15 +71,6 @@ public class JdbcTemplate {
 			e.printStackTrace();
 		}
 	}
-//	public static void close(PreparedStatement pstmt) {
-//		try {
-//			if(pstmt!=null) {
-//				pstmt.close();
-//			}
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//	}
 	public static void close(Statement stmt) {
 		try {
 			if(stmt!=null) {
@@ -118,12 +109,9 @@ public class JdbcTemplate {
 		try {
 			conn.rollback();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
-	
 	
 	
 	
