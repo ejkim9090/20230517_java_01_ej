@@ -1,5 +1,9 @@
 package kh.test.jdbckh.board.model.dto;
 
+import java.util.List;
+
+import kh.test.jdbckh.member.model.dto.Member;
+
 public class BoardDto {
 //	BNO         NOT NULL NUMBER         
 //	BTITLE      NOT NULL VARCHAR2(300)  
@@ -17,9 +21,10 @@ public class BoardDto {
 	private int bref;
 	private int breLevel;
 	private int breStep;
+//	private List<Member> memberList;
 
-//	public BoardDto() {
-//	}
+	public BoardDto() {
+	}
 	// selectOne dao --> controll --> view
 	public BoardDto(int bno, String btitle, String bcontent, String bwriteDate, String mid, int bref, int breLevel,
 			int breStep) {

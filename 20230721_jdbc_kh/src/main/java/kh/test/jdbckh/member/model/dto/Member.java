@@ -1,5 +1,9 @@
 package kh.test.jdbckh.member.model.dto;
 
+import java.util.List;
+
+import kh.test.jdbckh.board.model.dto.BoardDto;
+
 public class Member {
 //	MID    NOT NULL VARCHAR2(20)  
 //	MPWD   NOT NULL VARCHAR2(20)  
@@ -9,7 +13,7 @@ public class Member {
 	private String mpwd;
 	private String mname;
 	private String memail;
-	
+//	private List<BoardDto> boardList;
 	public Member() {
 	}
 	public Member(String mid, String mpwd) {
