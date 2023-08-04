@@ -45,9 +45,12 @@ public class DepartmentListServlet extends HttpServlet {
 		List<DepartmentDto> deptList = service.selectList(currentPage, PAGE_SIZE, searchWord);
 */
 		List<DepartmentDto> deptList = service.selectList();
-		request.setAttribute("deptList", deptList);
-		
-		request.getRequestDispatcher("/WEB-INF/view/dept/list.jsp").forward(request, response);
+		if(deptList != null && deptList.size() > 0) {
+			request.setAttribute("deptList", deptList);
+			request.getRequestDispatcher("/WEB-INF/view/dept/list.jsp").forward(request, response);
+		} else {
+			response.sendRedirect(request.getContextPath()+"/main");
+		}
 	}
 
 	/**
