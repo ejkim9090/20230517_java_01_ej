@@ -18,13 +18,8 @@ import kh.test.jdbckh.student.model.vo.StudentVo;
 @WebServlet("/student/insert.do")
 public class StudentInsertDoServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public StudentInsertDoServlet() {
-        super();
-    }
+	private StudentService service = new StudentService();
+	
 // doGet() 메소드 삭제
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -54,15 +49,15 @@ public class StudentInsertDoServlet extends HttpServlet {
 //		vo.setStudentNo(studentNo);
 //		vo.setStudentSsn(studentSsn);
 		System.out.println("[insert servlet] "+vo);
-		
-		StudentService service = new StudentService();
+
 		int result = service.insertStudent(vo);
-		
-//		if(result < 1) {
-//		//TODO
-//		}
-		response.sendRedirect(request.getContextPath()+"/student/list");		
-	
+		if(result < 1) {  // 오류발생
+			request.getSession().setAttribute("msg", studentName+"학생 등록에 실패했습니다. 정보를 다시 확인하고 등록해주세요.");
+			response.sendRedirect(request.getContextPath()+"/student/insert");	
+		} else {  // 등록 성공
+			request.getSession().setAttribute("msg", studentName+"학생 등록 되었습니다.");
+			response.sendRedirect(request.getContextPath()+"/student/list");		
+		}
 	}
 
 }

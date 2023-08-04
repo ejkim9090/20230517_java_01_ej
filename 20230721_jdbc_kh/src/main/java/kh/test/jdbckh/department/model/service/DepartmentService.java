@@ -68,4 +68,15 @@ public class DepartmentService {
 		close(conn);
 		return result;
 	}
+	
+	////추가 
+	// 학생등록시 필요한 학과정보 리스트 읽기
+	public List<DepartmentDto> selectListForStudent(){
+		List<DepartmentDto> result = null;
+		Connection conn = getConnection();
+		result = dao.selectListForStudent(conn);
+		close(conn);
+		return result;
+	}
+
 }

@@ -32,6 +32,13 @@ public class StudentListController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("/student/list doGet() 진입");
+		// 0. session 객체에 실린 msg 처리
+		if(request.getSession().getAttribute("msg") instanceof String) {
+			String msg = (String)request.getSession().getAttribute("msg");
+			request.getSession().removeAttribute("msg");
+			request.setAttribute("msg", msg);
+		}
+		
 		//// 1. 전달받은 parameter 읽어내기
 		String searchWord = request.getParameter("searchWord");
 		String pageNoStr = request.getParameter("pageNo");
