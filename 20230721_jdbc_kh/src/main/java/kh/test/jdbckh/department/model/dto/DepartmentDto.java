@@ -12,7 +12,6 @@ public class DepartmentDto {
 	private String openYn;
 	private Integer capacity;
 	
-	
 	public DepartmentDto() {
 	}
 	public DepartmentDto(String departmentNo, String departmentName, String category, String openYn, Integer capacity) {
