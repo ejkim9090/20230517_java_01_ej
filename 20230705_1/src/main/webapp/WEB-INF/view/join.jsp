@@ -170,7 +170,6 @@
 		console.log("msno 정규표현식 적합");
 		return true;
 	}
-	C:\app\user1\product\21c\dbhomeXE\jdbc\lib
 	// $("[name=mname]").parents('tr').next('.hint').css("color", 'red');
 			
 </script>
