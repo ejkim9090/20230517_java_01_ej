@@ -6,7 +6,8 @@
 	<display-name>20230721_jdbc_kh</display-name>
 	<!-- DB 없이 열릴수 있는 첫페이지에 사용가능함.
 	<welcome-file-list>
-		<welcome-file>/WEB-INF/view/student/list.jsp</welcome-file>
+		<welcome-file>/WEB-INF/view/member/login.jsp</welcome-file>
+		<welcome-file>index.jsp</welcome-file>		
 	</welcome-file-list>
 	-->
 
