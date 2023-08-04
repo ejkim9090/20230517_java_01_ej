@@ -1,20 +1,40 @@
-    header ul{
-        overflow: hidden;
-    }
-    header ul>li{
-        float: left;
-    }
-    header {
-        position: relative; height: 120px;
-    }
-    header > #logo {
-        position: absolute;  left: 20px; top: 30px;
-        font-family: 'Nanum Pen Script', cursive;
-    }
-    #main_gnb {
-        position: absolute;  right: 0; top: 0;
-    }
-    #main_lnb {
-        position: absolute;  right: 0; bottom: 10px;
-    }
-    #main_gnb>ul>li, #main_lnb>ul>li {float: left;}
+header ul{
+    overflow: hidden;
+}
+header ul>li{
+    float: left;
+}
+header {
+    position: relative; height: 120px;
+}
+header > #logo {
+    position: absolute;  left: 20px; top: 30px;
+    font-family: 'Nanum Pen Script', cursive;
+}
+#main_gnb {
+    position: absolute;  right: 0; top: 0;
+}
+#main_lnb {
+    position: absolute;  right: 0; bottom: 10px;
+}
+#main_gnb>ul>li, #main_lnb>ul>li {float: left;}
+
+.wrap.header > .wrap-modal{
+	display:none;
+	position: fixed;
+	top:0;
+	left:0;
+	width: 100%;
+	height: 100%;
+	z-index : 9999;
+	background: rgba(55,55,55,.3);
+}
+.wrap.header > .wrap-modal > .modal-content{
+	position: relative;
+	top:5%;
+	width: 50%; 
+/* 	left:100px; */
+	margin : 0 auto;
+	background: white;
+}
+
