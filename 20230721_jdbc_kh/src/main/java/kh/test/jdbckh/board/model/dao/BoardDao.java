@@ -19,9 +19,8 @@ public class BoardDao {
 		System.out.println("[Board Dao selectList]");
 		List<BoardDto> result = new ArrayList<BoardDto>();
 
-		String subquery = " select BNO, BTITLE, to_char(BWRITE_DATE, 'yyyy-mm-dd hh24:mi:ss') BWRITE_DATE, MID, BREF, BRE_LEVEL, BRE_STEP from BOARD ";
-		subquery += " order by BREF desc, BRE_STEP asc"; // 정렬순서
-		String query = subquery;
+		String query = " select BNO, BTITLE, to_char(BWRITE_DATE, 'yyyy-mm-dd hh24:mi:ss') BWRITE_DATE, MID, BREF, BRE_LEVEL, BRE_STEP from BOARD ";
+		query += " order by BREF desc, BRE_STEP asc"; // 정렬순서
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -55,7 +54,34 @@ public class BoardDao {
 	public BoardDto selectOne(Connection conn, int bno) {
 		System.out.println("[Board Dao selectOne] bno:" + bno);
 		BoardDto result = null;
-		// TODO
+		String query = " select BNO, BTITLE, bcontent, to_char(BWRITE_DATE, 'yyyy-mm-dd hh24:mi:ss') BWRITE_DATE, MID, BREF, BRE_LEVEL, BRE_STEP from BOARD ";
+		query += " where BNO=?"; 
+
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, bno);
+			rs = pstmt.executeQuery();
+
+			while (rs.next() == true) {
+				result = new BoardDto(
+						rs.getInt("BNO"),
+						rs.getString("BTITLE"),
+						rs.getString("bcontent"),
+						rs.getString("BWRITE_DATE"),
+						rs.getString("MID"),
+						rs.getInt("BREF"),
+						rs.getInt("BRE_LEVEL"),
+						rs.getInt("BRE_STEP")					
+						);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
 		System.out.println("[Board Dao selectOne] return:" + result);
 		return result;
 	}
@@ -93,12 +119,12 @@ public class BoardDao {
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, nextval);
-			pstmt.setString(1, dto.getBtitle());
-			pstmt.setString(2, dto.getBcontent());
-			pstmt.setString(3, dto.getMid());
-			pstmt.setInt(4, dto.getBno());
+			pstmt.setString(2, dto.getBtitle());
+			pstmt.setString(3, dto.getBcontent());
+			pstmt.setString(4, dto.getMid());
 			pstmt.setInt(5, dto.getBno());
 			pstmt.setInt(6, dto.getBno());
+			pstmt.setInt(7, dto.getBno());
 			result = pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -247,7 +273,7 @@ public class BoardDao {
 	
 	// 첨부파일들 저장
 	public int insertAttachFileList(Connection conn, List<AttachFileDto> dtoList, int bno) {
-		System.out.println("[Board Dao insertAttachFileList] dto:" + dtoList);
+		System.out.println("[Board Dao insertAttachFileList] dto:" + dtoList+", bno:"+bno);
 		int result = 0;
 		String query = "";
 		query = "insert all ";
@@ -293,4 +319,33 @@ public class BoardDao {
 		System.out.println("[Board Dao getSeqBoardBnoNexVal] return:" + result);
 		return result;
 	}
+	
+	// 첨부파일들 읽기
+	public List<AttachFileDto> selectAttachFileList(Connection conn, int bno) {
+		System.out.println("[Board Dao selectOne] bno:" + bno);
+		List<AttachFileDto> result = new ArrayList<AttachFileDto>();
+		String query = " select filepath from Attach_File ";
+		query += " where BNO=?"; 
+
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, bno);
+			rs = pstmt.executeQuery();
+
+			while (rs.next() == true) {
+				AttachFileDto dto = new AttachFileDto(rs.getString("filepath"));
+				result.add(dto);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		System.out.println("[Board Dao selectOne] return:" + result);
+		return result;
+	}
+
 }

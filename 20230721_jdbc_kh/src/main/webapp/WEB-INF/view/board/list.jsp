@@ -51,10 +51,12 @@
 	<c:forEach items="${boardList }" var="vo">
 		<div>${vo.bno }</div>
 		<div>
+		<a href="<%=request.getContextPath()%>/board/read?bno=${vo.bno }">
 		<c:forEach begin="1" end="${vo.breLevel }">
 		&#8618; 
 		</c:forEach>
 		${vo.btitle }
+		</a>
 		</div>
 		<div>${vo.mid }</div>
 		<div>${vo.bwriteDate }</div>

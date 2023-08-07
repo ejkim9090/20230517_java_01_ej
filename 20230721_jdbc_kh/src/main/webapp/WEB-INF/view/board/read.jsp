@@ -8,37 +8,35 @@
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 </head>
 <body>
-<c:if test="${empty SsLoginId }">
-	<script>
-		alert("글작성은 로그인 후 사용가능합니다.");
-		location.href="${pageContext.request.contextPath}/login";
-	</script>
-</c:if>
+ 
 <c:choose>
-	<c:when test="${not empty bno }">
-		<h2>${bno }에 답글 등록</h2>
+	<c:when test="${not empty bvo }">
+		<h2>${bvo.bno }</h2>
 	</c:when>
 	<c:otherwise>
-		<h2>새 글 등록</h2>
+		<script>
+			alert("해당하는 글을 읽을 수 없습니다. 다시 글 선택해주세요.");
+			location.href="${pageContext.request.contextPath}/board/list";
+		</script>
 	</c:otherwise>
 </c:choose>
 	<div>
-	<!-- type="file" 이 있다면 form method="post" enctype="multipart/form-data" 반드시 작성!!! -->
-		<form action="<%=request.getContextPath() %>/board/insert" method="post" 
-					enctype="multipart/form-data" >
-			<c:if test="${not empty bno }">
-				<input type="hidden" name="bno" value="${bno }">
-			</c:if>
-			제목:<input type="text" name="btitle">
+		<input type="hidden" name="bno" value="${bvo.bno }">
+		제목:<input type="text" name="btitle" value="${bvo.btitle }" readonly>
+		<br>
+		내용:<textarea rows="10" cols="50" name="bcontent" value="${bvo.btitle }" readonly></textarea>
+		<br>
+		<c:forEach items="${bvo.attachFileList }" var="filevo">
+			svg는 img 태그로 안보일 수 있음<br>
+			<object data="${pageContext.request.contextPath}/${filevo.filepath }" width="200"></object>
 			<br>
-			내용:<textarea rows="10" cols="50" name="bcontent"></textarea>
-			<br>
-			<button type="button" id="btn-add-file">파일추가</button>
-			<div id="add-file">
-			</div>
-			<button type="submit">글 등록</button>
-		</form>
-		
+		</c:forEach>
+		<hr>
+	<c:if test="${SsLoginId eq bvo.mid}">
+		로그인id와 글작성자 같으면 수정버튼 보이기
+		<button type="button" id="btn-board-update">글 수정</button>
+	</c:if>
+		<button type="button" id="btn-board-reply">댓글달기</button>
 		<button type="button" id="btn-board-list">글목록으로 이동</button>
 	</div>
 	<script>

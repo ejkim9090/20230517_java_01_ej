@@ -28,6 +28,11 @@ public class BoardService {
 		BoardDto result = null;
 		Connection conn = getConnection();
 		result = dao.selectOne(conn, bno);
+		if(result != null) {
+			// 첨부파일들 읽어서 result에 넣기
+			List<AttachFileDto> fileList = dao.selectAttachFileList(conn, bno);
+			result.setAttachFileList(fileList);
+		}
 		close(conn);
 		return result;
 	}
