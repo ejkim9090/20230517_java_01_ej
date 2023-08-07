@@ -29,9 +29,18 @@ desc TB_PROFESSOR;
 select * from tb_student where student_name like '%&검색어%' or student_address like '%&검색어%'
 ;
 select * from tb_student where student_name like '%영%' or student_address like '%영%'
+order by 3 desc
 ;
+--String query= "select * from tb_student where student_name like ? or student_address like ?
+--;
 
-
+select * from
+(
+select tb1.*, rownum rn from
+    (select * from tb_student order by student_no asc) tb1
+) tb2
+where rn between 6 and 10
+;
 
 
 
