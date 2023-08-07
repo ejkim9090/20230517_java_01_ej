@@ -22,6 +22,7 @@ import kh.test.jdbckh.department.model.service.DepartmentService;
 public class AjaxPageController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println(request);
 //		PrintWriter out = response.getWriter();
 //		out.print("ctrl-jsp로전달함");
 //		out.flush();

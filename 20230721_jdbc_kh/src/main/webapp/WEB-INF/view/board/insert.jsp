@@ -8,6 +8,12 @@
 <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
 </head>
 <body>
+<c:if test="${empty SsLoginId }">
+	<script>
+		alert("글작성은 로그인 후 사용가능합니다.");
+		location.href="${pageContext.request.contextPath}/login";
+	</script>
+</c:if>
 <c:choose>
 	<c:when test="${not empty bno }">
 		<h2>${bno }에 답글 등록</h2>
