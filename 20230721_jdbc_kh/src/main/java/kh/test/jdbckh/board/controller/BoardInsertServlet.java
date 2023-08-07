@@ -98,7 +98,7 @@ public class BoardInsertServlet extends HttpServlet {
 		System.out.println(bcontent);
 		System.out.println(attachFileList);
 		
-		String mid = "biz1";  // TODO: 임시작성자 - 로그인한 id로 변경
+		String mid = (String)request.getSession().getAttribute("SsLoginId");  // TODO: 임시작성자 - 로그인한 id로 변경
 		
 		// 답글작성시 참조글번호
 		String bnoStr = multiReq.getParameter("bno");
