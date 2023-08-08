@@ -11,7 +11,6 @@
 	grid-template-columns:  auto auto;
 }
 </style>
- <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
 </head>
 <body>
 <h2>ajax test</h2>
@@ -21,84 +20,95 @@
 <div class="grid-wrap">
 <div>학과이름</div><div>계열</div>
 </div>
-	<h1>지도 표시하기</h1>
-	<div id="map" style="width: 100%; height: 600px;"></div>
-
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=키값넣기키값넣기키값넣기키값넣기키값넣기키값넣기키값넣기키값넣기"></script>
+<div>
+	<h2>로그인</h2>
+	<form id="frm-login" >
+		id: <input type="text" name="mid" required="required"><br>
+		pw: <input type="password" name="mpwd" required="required"><br>
+		<button type="button" id=btnajax3>로그인</button>
+	</form>
+</div>
+<div>
+	<h2>여러회원가입(장바구니선택)</h2>
+	<div class="signup">
+		id: <input type="text" name="mid" required="required"><br>
+		pw: <input type="password" name="mpwd" required="required"><br>
+		이름: <input type="text" name="mname" required="required"><br>
+		이메일: <input type="text" name="memail" required="required"><br>
+	</div>
+	<div class="signup">
+		id: <input type="text" name="mid" required="required"><br>
+		pw: <input type="password" name="mpwd" required="required"><br>
+		이름: <input type="text" name="mname" required="required"><br>
+		이메일: <input type="text" name="memail" required="required"><br>
+	</div>
+	<div class="signup">
+		id: <input type="text" name="mid" required="required"><br>
+		pw: <input type="password" name="mpwd" required="required"><br>
+		이름: <input type="text" name="mname" required="required"><br>
+		이메일: <input type="text" name="memail" required="required"><br>
+	</div>
+	<button type="button" id=btnajax4>회원가입</button>
+</div>
 <script>
-var deptListArr = JSON.parse('${deptList}'); 
-console.log(deptListArr.length);
-var markerArr = [];
-for(var i=0; i<1; i++){
-	var vo = deptListArr[i];
-	var markerObj = {
-		title: '<div>'+vo.departmentNo+'</div>',
-		latlng : new kakao.maps.LatLng(37.498505, 127.032540) 
-	};
-	markerArr.push(markerObj);
-}
-console.log(markerArr);
-var container = document.getElementById('map');
-var options = {
-	center : new kakao.maps.LatLng(37.498505, 127.032540),
-	level : 8
-};
-var map = new kakao.maps.Map(container, options);
-// lat=37.500759, lng=127.034269
-//마커를 표시할 위치와 title 객체 배열입니다
-var positions = markerArr;
-/*
-var positions = [
-{
-    title: '맥주창고', 
-    latlng: new kakao.maps.LatLng(37.500759,127.034269 )
-},
-{
-    title: '생태연못', 
-    latlng: new kakao.maps.LatLng(33.450936, 126.569477)
-},
-{
-    title: '텃밭', 
-    latlng: new kakao.maps.LatLng(33.450879, 126.569940)
-},
-{
-    title: '근린공원',
-    latlng: new kakao.maps.LatLng(33.451393, 126.570738)
-}
-];
-*/
-//마커 이미지의 이미지 주소입니다
-var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
-
-for (var i = 0; i < positions.length; i ++) {
-
-// 마커 이미지의 이미지 크기 입니다
-var imageSize = new kakao.maps.Size(24, 35); 
-
-// 마커 이미지를 생성합니다    
-var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
-
-// 마커를 생성합니다
-var marker = new kakao.maps.Marker({
-    map: map, // 마커를 표시할 지도
-    position: positions[i].latlng, // 마커를 표시할 위치
-    title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-    image : markerImage // 마커 이미지 
-});
-}
-
-
-
-
-
-
-
-
-
-
-
 $("#btnajax1").click(ajax1ClickHandler);
 $("#btnajax2").click(ajax2ClickHandler);
+$("#btnajax3").click(ajax3ClickHandler);
+$("#btnajax4").click(ajax4ClickHandler);
+function ajax4ClickHandler(){
+	var dataArr = [];  // js array - json 따옴표
+	$(".signup").each(function(idx){
+		var dataObj = {
+			mid: $(this).find("[name=mid]").val()
+			, mpwd:$(this).find("[name=mpwd]").val()
+			, mname: $(this).find("[name=mname]").val()
+			, memail:$(this).find("[name=memail]").val()
+			};
+		dataArr.push(dataObj);
+	});
+	console.log(dataArr);  // js array
+	console.log(JSON.stringify(dataArr));  // json 으로 변형 string형
+	$.ajax({
+		url:"${pageContext.request.contextPath}/ajax4"
+		,type:"post"
+		,data: JSON.stringify(dataArr)
+		,success: function(result){
+			console.log("success:");
+			console.log(result);
+		}
+		,error: function(){
+			console.log("error:");
+			console.log(result);
+		}
+	});
+}
+function ajax3ClickHandler(){
+	console.log("ajax3ClickHandler");
+	console.log( $("[name=mid]").val());
+	console.log( $("[name=mpwd]").val());
+	//form엘리먼트객체.serialize()
+	var dataQuery = $("#frm-login").serialize();
+	console.log(dataQuery);
+	$.ajax({
+		url:"${pageContext.request.contextPath}/ajax3"
+		,type:"post"
+		,data: $("#frm-login").serialize()
+			//{
+			//mid: $("[name=mid]").val(), 
+			//mpwd:$("[name=mpwd]").val() 
+			//}
+		,success: function(result){
+			console.log("success:");
+			console.log(result);
+		}
+		,error: function(){
+			console.log("error:");
+			console.log(result);
+		}
+	});
+}
+
+
 function ajaxSuccess(result){
 	console.log("ctrl로부터 전달받은 데이터 :");
 	console.log(result);
@@ -117,10 +127,6 @@ function ajax1ClickHandler(){
 	});
 	console.log("ajax로 데이터 전달 중-1");
 }
-
-
-
-
 
 function ajax2ClickHandler(){
 	console.log("btnajax2 click");
@@ -158,5 +164,10 @@ function displayDepartment(deptList){
 	$('.grid-wrap').html(htmlVal);	
 }
 </script>
+
+
+
+
+
 </body>
 </html>
