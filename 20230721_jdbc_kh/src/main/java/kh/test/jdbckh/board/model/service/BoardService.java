@@ -12,9 +12,11 @@ import java.util.List;
 import kh.test.jdbckh.board.model.dao.BoardDao;
 import kh.test.jdbckh.board.model.dto.AttachFileDto;
 import kh.test.jdbckh.board.model.dto.BoardDto;
+import kh.test.jdbckh.member.model.dao.MemberDao;
 
 public class BoardService {
 	private BoardDao dao = new BoardDao();
+	private MemberDao mdao = new MemberDao();
 	
 	public List<BoardDto> selectList(){
 		List<BoardDto> result = null;
