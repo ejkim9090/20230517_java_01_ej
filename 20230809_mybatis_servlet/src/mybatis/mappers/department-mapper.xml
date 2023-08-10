@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="department1">
+	<resultMap type="DepartmentDto2" id="resultMapDept3">
+		<!-- id는 주로 PK 컬럼을 작성. 그외 result에 작성 -->
+		<id property="departmentNo" column="DEPARTMENT_NO"/>
+		<result property="departmentName" column="DEPARTMENT_NAME"/>
+		<result property="category" column="CATEGORY"/>
+		<result property="openYn" column="OPEN_YN"/>
+		<result property="capacity" column="CAPACITY"/>
+	</resultMap>
+
+	<!-- resultType="DepartmentDto2" 이렇게 사용 불가. 컬럼명과 필드명이 다름. -->
+	<select id="selectList0" resultMap="resultMapDept3">
+		SELECT DEPARTMENT_NO, DEPARTMENT_NAME, CATEGORY, OPEN_YN, CAPACITY 
+		FROM TB_DEPARTMENT
+	</select>
+	<select id="selectOne0" resultMap="resultMapDept3" parameterType="string" >
+		SELECT DEPARTMENT_NO, DEPARTMENT_NAME, CATEGORY, OPEN_YN, CAPACITY 
+		FROM TB_DEPARTMENT
+		WHERE DEPARTMENT_NO = #{departmentNo4}
+	</select>
+	<insert id="insert0" parameterType="DepartmentDto2">
+		INSERT INTO TB_DEPARTMENT (DEPARTMENT_NO, DEPARTMENT_NAME, CATEGORY, OPEN_YN, CAPACITY)
+		VALUES (#{departmentNo},#{departmentName},#{category}, #{openYn}, #{capacity})
+	</insert>
+</mapper>

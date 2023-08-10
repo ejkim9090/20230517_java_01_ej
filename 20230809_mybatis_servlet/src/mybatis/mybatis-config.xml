@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+	<settings>
+		<!-- 대소문자완전구분함. null 값 처리  -->
+		<setting name="jdbcTypeForNull" value="NULL"/>
+		<!-- _ 를 카멜기법으로  
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+		 -->
+	</settings>
+
+	<typeAliases>
+		<typeAlias type="kh.test.mybatis.department.model.dto.DepartmentDto" alias="DepartmentDto2"/>
+	</typeAliases>
+	
+	<mappers>
+		<mapper resource="mappers/department-mapper.xml"/>
+	</mappers>
+</configuration>

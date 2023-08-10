@@ -1,0 +1,1 @@
+const KAKAOMAP_API = config.apikey;
