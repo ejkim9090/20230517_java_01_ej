@@ -4,11 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>mybatis메인</title>
+<title>mybatis DeptList</title>
 </head>
 <body>
 <h2>mybatis메인페이지</h2>
-[ ${stdList } ]
-
 </body>
 </html>

@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import kh.test.mybatis.student.model.service.StudentService;
+
 /**
  * Servlet implementation class MainController
  */
@@ -26,6 +28,8 @@ public class MainController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		request.setAttribute("stdList", new StudentService().selectList());
 		request.getRequestDispatcher("/WEB-INF/view/main.jsp").forward(request, response);
 	}
 

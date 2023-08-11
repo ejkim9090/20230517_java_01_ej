@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="student1">
+
+	<resultMap type="StudentVo2" id="resultMap3">
+		<!-- id는 주로 PK 컬럼을 작성. 그외 result에 작성 -->
+		<id property="studentNo" column="student_No"/>
+		<result property="departmentNo" column="department_No"/>
+		<result property="studentName" column="student_Name"/>
+		<result property="studentSsn" column="student_Ssn"/>
+		<result property="studentAddress" column="student_Address"/>
+		<result property="entranceDate" column="entrance_Date"/>
+		<result property="absenceYn" column="absence_Yn"/>
+		<result property="coachProfessorNo" column="coach_Professor_No"/>
+	</resultMap>
+
+	<!-- resultType="DepartmentDto2" 이렇게 사용 불가. 컬럼명과 필드명이 다름. -->
+	<!-- resultMap=""과 resultType="" 둘 중 하나만 작성해야함.  list, arraylist 는 result에 사용하지 않음.-->	
+	<select id="selectList0" resultMap="resultMap3" >
+		SELECT student_No, department_No, student_Name, student_Ssn, student_Address, 
+			to_char(entrance_Date, 'yyyy-mm-dd'), absence_Yn, coach_Professor_No
+		FROM TB_student
+	</select>
+	<select id="selectOne0" resultMap="resultMap3" parameterType="string" >
+		SELECT student_No, department_No, student_Name, student_Ssn, student_Address, 
+			to_char(entrance_Date, 'yyyy-mm-dd'), absence_Yn, coach_Professor_No
+		FROM TB_student
+		WHERE student_No = #{anyname}
+	</select>
+	<insert id="insert0" parameterType="StudentVo2">
+		INSERT INTO TB_student (student_No, department_No, student_Name, student_Ssn, student_Address, 
+			entrance_Date, absence_Yn, coach_Professor_No)
+		VALUES (#{studentNo},#{departmentNo},#{studentName}, #{studentSsn}, #{studentAddress},
+				to_date(#{entranceDate}, 'yyyy-mm-dd'),#{absenceYn},#{coachProfessorNo}
+		)
+	</insert>
+</mapper>
