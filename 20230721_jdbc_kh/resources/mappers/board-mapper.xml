@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="boardMapper1">
+<resultMap type="BoardDto" id="BoardResultMap1">
+	<id property="bno" column="BNO"/>
+	<result property="bcontent" column="bcontent"/>
+	<result property="btitle" column="btitle"/>
+	<result property="bwriteDate" column="bwrite_Date"/>
+	<result property="bref" column="bref"/>
+	<collection property="attachFileList">
+		<result property="filepath" column="FILE_PATH"/>
+	</collection>
+</resultMap>
+
+	<select id="selectAttachFile1" resultType="AttachFileDto" parameterType="_int">
+	select * from Attach_File where bno=#{bno}
+	</select>
+	<select id="selectOne1" resultMap="BoardResultMap1" parameterType="_int">
+	select BNO, BTITLE, bcontent, to_char(BWRITE_DATE, 'yyyy-mm-dd hh24:mi:ss') 
+	BWRITE_DATE, MID, BREF, BRE_LEVEL, BRE_STEP from BOARD 
+	where BNO= #{bno} 
+	</select>
+	<insert id="insert1" parameterType="map">
+	insert into BOARD values (#{nextVal}, #{dto.btitle}, #{dto.bcontent}, default, #{dto.mid},#{nextVal}, 0,0)
+	</insert>
+</mapper>

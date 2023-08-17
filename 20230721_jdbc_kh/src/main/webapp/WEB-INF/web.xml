@@ -25,6 +25,9 @@
 		<url-pattern>*.svg</url-pattern>
 		<url-pattern>*.ico</url-pattern>
 		<url-pattern>*.swf</url-pattern>
+		<url-pattern>*.ttf</url-pattern>
+		<url-pattern>*.woff</url-pattern>
+		<url-pattern>*.woff2</url-pattern>
 	</servlet-mapping>
 
 	<filter>

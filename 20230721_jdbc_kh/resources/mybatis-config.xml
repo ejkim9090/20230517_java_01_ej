@@ -2,32 +2,25 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
 <configuration>
 	<settings>
-		<!-- 대소문자완전구분함. null 값 처리  -->
 		<setting name="jdbcTypeForNull" value="NULL"/>
-		<!-- _ 를 카멜기법으로  
 		<setting name="mapUnderscoreToCamelCase" value="true"/>
-		 -->
 	</settings>
-
 	<typeAliases>
-		<typeAlias type="kh.test.mybatis.department.model.dto.DepartmentDto" alias="DepartmentDto2"/>
-		<typeAlias type="kh.test.mybatis.student.model.vo.StudentVo" alias="StudentVo2"/>
+		<typeAlias type="kh.test.jdbckh.board.model.dto.AttachFileDto" alias="AttachFileDto"/>
 		<typeAlias type="kh.test.jdbckh.board.model.dto.BoardDto" alias="BoardDto"/>
 	</typeAliases>
-	
-	<environments default="development1">
-		<environment id="development1">
+	<environments default="aaa">
+		<environment id="aaa">
 			<transactionManager type="JDBC"></transactionManager>
 			<dataSource type="POOLED">
 				<property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
 				<property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:xe"/>
-				<property name="username" value="kh"/>
+				<property name="username" value="kh	"/>
 				<property name="password" value="kh"/>
 			</dataSource>
 		</environment>
-		<environment id="development2">
+		<environment id="bbb">
 			<transactionManager type="JDBC"></transactionManager>
-			<!-- TODO POOLED -->
 			<dataSource type="POOLED">
 				<property name="driver" value="oracle.jdbc.driver.OracleDriver"/>
 				<property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:xe"/>
@@ -36,12 +29,7 @@
 			</dataSource>
 		</environment>
 	</environments>
-	
 	<mappers>
-		<!-- namespace가 중요 구분자가 됨. 각각 unique한 이름을로 지어주세요. -->
-<!-- 		<mapper resource="./mappers/department-mapper.xml"/> -->
-<!-- 		<mapper resource="./mappers/board-mapper.xml"/> -->
-		<mapper resource="mybatis/mappers/student-mapper.xml"/>
+		<mapper resource="mappers/board-mapper.xml"/>
 	</mappers>
-
 </configuration>

@@ -3,8 +3,8 @@ package kh.test.jdbckh.board.model.dto;
 import java.util.List;
 
 public class AttachFileDto {
-	private String filepath;
 	private int bno;
+	private String filepath;
 	private String fileno;
 	
 	public AttachFileDto() {
