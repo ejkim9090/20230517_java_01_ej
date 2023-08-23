@@ -19,11 +19,6 @@ public class MemberDao {
 	
 	public List<MemberVo> selectList() {
 		return sqlSession.selectList("member.selectList");
-//		### Cause: java.lang.IllegalArgumentException: Mapped Statements collection does not contain value 
-//		for member.selectList]을(를) 발생시켰습니다.
-//		java.lang.IllegalArgumentException: Mapped Statements collection does not contain value for member.selectList
-		
-		
 	}
 	public MemberVo selectOne(String pk) {
 		return sqlSession.selectOne("member.selectOne", pk);
