@@ -11,9 +11,11 @@ import kh.lclass.db1.member.model.service.MemberService;
 public class MemberController {
 	@Autowired
 	private MemberService memberService;
+	
 	@GetMapping("/member/list")
 	public String list(Model model) {
 		model.addAttribute("memberList", memberService.selectList());
 		return "member/list";
 	}
+	
 }
