@@ -15,10 +15,15 @@ public class MemberService {
 	@Autowired
 	private MemberDao memberDao;
 	
-	public List<MemberVo> selectList(){
-		return memberDao.selectList(); 
-	}
 	
+	public List<MemberVo> selectList() {
+		List<MemberVo> result = memberDao.selectList();
+		return result;
+	}
+//	public List<MemberVo> selectList(){
+//		return memberDao.selectList(); 
+//	}
+//	
 	public MemberVo selectOne(String pk) {
 		return memberDao.selectOne(pk);
 	}

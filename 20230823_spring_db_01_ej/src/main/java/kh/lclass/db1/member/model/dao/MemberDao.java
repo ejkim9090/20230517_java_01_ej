@@ -16,10 +16,14 @@ public class MemberDao {
 	// 따라서 = null 또는 = new Xxx() 대입하면 안됨!!!!!
 	@Autowired
 	private SqlSession sqlSession;	
-	
+
 	public List<MemberVo> selectList() {
-		return sqlSession.selectList("member.selectList");
+		List<MemberVo> result = sqlSession.selectList("member.selectList");
+		return result;
 	}
+//	public List<MemberVo> selectList() {
+//		return sqlSession.selectList("member.selectList");
+//	}
 	public MemberVo selectOne(String pk) {
 		return sqlSession.selectOne("member.selectOne", pk);
 	}
