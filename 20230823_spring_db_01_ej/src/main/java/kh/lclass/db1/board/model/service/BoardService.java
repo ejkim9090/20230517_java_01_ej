@@ -15,20 +15,31 @@ public class BoardService {
 	@Autowired
 	private BoardDao boardDao;
 	
-	public List<BoardVo> selectList(){
+	public List<BoardVo> selectList() throws Exception{
 		return boardDao.selectList(); 
 	}
-	public BoardVo selectOne(int bno) {
+	public BoardVo selectOne(int bno) throws Exception{
 		return boardDao.selectOne(bno);
 	}
-	public int insert(BoardVo vo) {
-		boardDao.update(vo);
-		return boardDao.insert(vo);
+
+	@Transactional
+	public int insert(BoardVo vo) throws Exception{
+//		int nextval = boardDao.getNextVal();
+		BoardVo returnVo = boardDao.insert(vo);
+		int result = returnVo.getBno();
+		if(result != 0) {
+			// insert 실패
+	//		if(returnVo.getAttachFileList()!=null&&returnVo.getAttachFileList().size()>0) {
+	//			boardDao.insertAttachFileList(returnVo);
+	//		}
+		}
+		return result;
 	}
-	public int update(BoardVo vo) {
+	
+	public int update(BoardVo vo) throws Exception{
 		return boardDao.update(vo);
 	}
-	public int delete(int bno) {
+	public int delete(int bno) throws Exception{
 		return boardDao.delete(bno);
 	}
 }
