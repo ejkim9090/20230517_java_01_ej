@@ -11,7 +11,7 @@ import kh.lclass.db1.board.model.vo.BoardVo;
 
 @Service
 public class BoardService {
-
+ 
 	@Autowired
 	private BoardDao boardDao;
 	

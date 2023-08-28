@@ -37,9 +37,9 @@ public class BoardController {
 //		System.out.println(rttr.getAttribute("msg2"));
 //		Map<String, Object> map = (Map<String, Object>)rttr.getFlashAttributes();
 //		System.out.println(map);
-		System.out.println(msg2);
-		System.out.println(m3);
-		System.out.println(n1);
+//		System.out.println(msg2);
+//		System.out.println(m3);
+//		System.out.println(n1);
 		
 		// Controller --> JSP(View) 데이터 전달
 		//model.addAttribute("boardList", boardService.selectList());

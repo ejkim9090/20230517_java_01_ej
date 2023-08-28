@@ -12,7 +12,7 @@
 	
 	<!-- Application Loggers -->
 	<logger name="kh.lclass.db1">
-		<level value="info" />
+		<level value="debug" />
 	</logger>
 	
 	<!-- 3rdparty Loggers -->
