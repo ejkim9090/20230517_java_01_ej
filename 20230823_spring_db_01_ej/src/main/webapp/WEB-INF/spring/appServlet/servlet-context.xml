@@ -41,12 +41,21 @@
 	</aop:config>
 	 -->
 		
-	<!-- 
-	<beans:bean class="kh.lclass.db1.member.model.vo.MemberVo" id="memberVo1">
-		<beans:property name="mname" value="홍길동" />
-	</beans:bean>
-	<beans:bean class="kh.lclass.db1.member.model.vo.MemberVo" id="memberVo2">
-		<beans:property name="mname" value="길동동생" />
-	</beans:bean>
-	-->	
+	<!-- Interceptor 인터셉터 -->
+	<!-- Interceptor 로그인 객체 생성 -->
+	<beans:bean class="kh.lclass.db1.common.LoginInterceptor" id="loginInterceptor"/>
+	<interceptors>
+		<!-- Interceptor 로그인 설정 -->
+		<interceptor>
+			<mapping path="/**"/>
+			<exclude-mapping path="/resources/**"/>
+			<exclude-mapping path="/login"/>
+			<exclude-mapping path="/singup"/>
+			<exclude-mapping path="/findid"/>
+			<exclude-mapping path="/findpwd"/>
+			<exclude-mapping path="/shop/**"/>
+			<beans:ref bean="loginInterceptor"/>
+		</interceptor>		
+	</interceptors>
+	
 </beans:beans>

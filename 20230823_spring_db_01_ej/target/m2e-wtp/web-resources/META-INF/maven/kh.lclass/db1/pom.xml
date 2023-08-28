@@ -12,6 +12,7 @@
 		<org.springframework-version>5.3.19</org.springframework-version>
 		<org.aspectj-version>1.9.19</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
+		<org.springframework.security-version>5.7.5</org.springframework.security-version>
 	</properties>
 	<dependencies>
 		<!-- Spring -->
@@ -168,7 +169,31 @@
 		    <artifactId>lombok</artifactId>
 		    <version>1.18.28</version>
 		    <scope>provided</scope>
-		</dependency>				
+		</dependency>
+		
+		<!-- Spring Security -->
+		<!-- spring-security-core -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-core</artifactId>
+		    <version>${org.springframework.security-version}</version>
+		</dependency>
+		<!-- spring-security-web -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-web</artifactId>
+		    <version>${org.springframework.security-version}</version>
+		</dependency>
+		<!-- spring-security-config -->
+		<dependency>
+		    <groupId>org.springframework.security</groupId>
+		    <artifactId>spring-security-config</artifactId>
+		    <version>${org.springframework.security-version}</version>
+		</dependency>
+		
+		
+		
+						
 	</dependencies>
     <build>
         <plugins>

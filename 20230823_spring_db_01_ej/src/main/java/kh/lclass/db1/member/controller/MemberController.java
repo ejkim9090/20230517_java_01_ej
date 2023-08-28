@@ -32,4 +32,9 @@ public class MemberController {
 		//TODO: model.addAttribute("membervo", memberService.selectOne());
 		return "member/get";
 	}
+	
+	@GetMapping("/login")
+	public String login(Model model) {
+		return "login";
+	}
 }
