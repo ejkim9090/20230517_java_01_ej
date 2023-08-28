@@ -1,6 +1,5 @@
 package kh.lclass.db1.board.model.dao;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;

@@ -3,8 +3,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
@@ -33,18 +35,23 @@
 		<!-- <constructor-arg ref="dataSource" /> -->
 		<property name="dataSource" ref="dataSource"/>
 	</bean>
-	<!-- @Transactional 사용되는 코드를 AOP통해서 설정함 TODO -->
+	
+	<!-- 방법 1 @Transactional 사용되는 코드를 AOP통해서 설정함 실습:TODO -->
 	<tx:annotation-driven/>
-	
-<!-- 	
-	<bean class="kh.lclass.db1.member.model.dao.MemberDao" id="memberDao">
-	</bean>
-	<bean class="kh.lclass.db1.member.model.dao.BoardDao" id="boardDao">
-	</bean>
- -->
-	
-	
-	
+	<!-- 방법 2 Transaction 시점 등록 XML 
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="select*" rollback-for="Exception" read-only="true" />
+			<tx:method name="insert*" rollback-for="Exception"/>
+			<tx:method name="update*" rollback-for="Exception"/>
+			<tx:method name="delete*" rollback-for="Exception"/>
+		</tx:attributes>
+	</tx:advice>
+	<aop:config>
+		<aop:pointcut id="serviceMethod" expression="execution(public * kh.lclass..*Service.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethod"/>
+	</aop:config>
+	-->
 	
 	
 	

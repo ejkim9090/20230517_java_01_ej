@@ -1,5 +1,6 @@
 package kh.lclass.db1.board.controller;
 
+import java.security.Principal;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -81,6 +82,7 @@ public class BoardController {
 			// 방법 1 HttpServletRequest request
 			BoardVo vo
 			, String btitle
+			//, Principal principal
 			) {   // 메소드 내부에서 처리함. ExceptionHandler 로 가지 않도록 함.
 		//
 		String viewPage = "redirect:/";
@@ -91,10 +93,12 @@ public class BoardController {
 //		BoardVo vo = new BoardVo();
 //		vo.setBcontent(bcontent);
 //		vo.setBtitle(btitle);
-		System.out.println(vo);
-		System.out.println(btitle);
+//		System.out.println(vo);
+//		System.out.println(btitle);
 		
 		// TODO login한 mid
+		// String mid = principal.getName();
+				
 		vo.setMid("kh1");
 		
 		int result;
@@ -119,8 +123,8 @@ public class BoardController {
 		}  
 		return viewPage;
 	}
-	@ExceptionHandler
-	public void e() {
-		
-	}
+//	@ExceptionHandler
+//	public void e() {
+//		
+//	}
 }

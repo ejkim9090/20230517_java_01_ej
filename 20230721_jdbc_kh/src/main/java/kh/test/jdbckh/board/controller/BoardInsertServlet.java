@@ -34,6 +34,13 @@ public class BoardInsertServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("/board/insert doGet()");
 		
+		String mid = (String)request.getSession().getAttribute("SsLoginId");  // TODO: 임시작성자 - 로그인한 id로 변경
+		if(mid == null || mid.equals("")) {
+			request.getSession().setAttribute("msg", "로그인하여야 글등록이 가능합니다.");
+			response.sendRedirect(request.getContextPath()+"/login");
+		}
+		
+		
 		// 답글작성시 참조글번호
 		String bnoStr = request.getParameter("bno");
 		int bno = 0;
@@ -99,6 +106,10 @@ public class BoardInsertServlet extends HttpServlet {
 		System.out.println(attachFileList);
 		
 		String mid = (String)request.getSession().getAttribute("SsLoginId");  // TODO: 임시작성자 - 로그인한 id로 변경
+		if(mid == null || mid.equals("")) {
+			request.getSession().setAttribute("msg", "로그인하여야 글등록이 가능합니다.");
+			response.sendRedirect(request.getContextPath()+"/login");
+		}
 		
 		// 답글작성시 참조글번호
 		String bnoStr = multiReq.getParameter("bno");
@@ -115,7 +126,7 @@ public class BoardInsertServlet extends HttpServlet {
 			}
 		}
 		
-		// bno : 0이면 원본글, 그외 답글의 참조번호
+		// bno : 0이면 원본글, 그외 답글의 참조번호a
 		int result  = service.insert(new BoardDto(bno, btitle, bcontent, mid), attachFileList);
 		if(result < 0) {
 			// 오류 발생
