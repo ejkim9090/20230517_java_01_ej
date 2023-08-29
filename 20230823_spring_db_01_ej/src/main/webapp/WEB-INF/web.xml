@@ -5,7 +5,7 @@
 
 	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
 
-	<!-- 2 security-context.xml 생성 방법 new - Spring Bean Configuration file -->
+	<!-- Spring Security 2 security-context.xml 생성 방법 new - Spring Bean Configuration file -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
@@ -51,6 +51,13 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-
-
+	<!-- Spring Security 3 -->
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 </web-app>

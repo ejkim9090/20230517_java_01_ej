@@ -62,7 +62,11 @@
 	</interceptors>
 	 -->
 	 
-
+	<!-- File Upload : bean 생성 중요!!! id="multipartResolver" 반드시 !!! -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="defaultEncoding" value="UTF-8"/>
+		<beans:property name="maxUploadSize" value="10485760"/>
+	</beans:bean>
 	 
 	 
 	 

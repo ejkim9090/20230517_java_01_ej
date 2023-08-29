@@ -19,12 +19,21 @@
 		1. http://localhost:8090/db1/board/insert - 진입가능
 		2. http://localhost:8090/db1/member/list -진입불가 -login페이지 보이지
 		 -->
-		<security:intercept-url pattern="/**" access="hasRole('R_M')" />
-		<security:form-login/>
+		<security:intercept-url pattern="/resources/**" access="permitAll" />
+		<security:intercept-url pattern="/error/**" access="permitAll" />
+		
+		<security:intercept-url pattern="/board/**" access="permitAll" />
+		<security:intercept-url pattern="/member/**" access="hasRole('R_M')" />
+		<security:intercept-url pattern="/admin/**" access="hasRole('R_A')" />
+		<security:form-login login-page="/login" 
+							authentication-success-handler-ref="customLoginSuccess"
+							authentication-failure-url="/login"
+		/>
 		
 		<security:logout logout-url="/user/logout" 
 							logout-success-url="/board/list"
 							invalidate-session="true"
+							delete-cookies="remember-me,JSESSION_ID"
 		/>
 	</security:http>
 
@@ -49,8 +58,8 @@
 		<security:authentication-provider>
 			<!-- 
         	<security:user-service>
-              <security:user name="member" password="{noop}member" authorities="ROLE_MEMBER" />
-              <security:user name="admin" password="{noop}admin" authorities="ROLE_MEMBER,ROLE_ADMIN" />
+              <security:user name="member" password="{noop}member" authorities="R_M" />
+              <security:user name="admin" password="{noop}admin" authorities="R_M,R_A" />
             </security:user-service>
 			 -->
             <security:password-encoder hash="bcrypt" />
@@ -78,6 +87,6 @@
     <bean id="customAuthenticationProvider" class="kim.spring.ej.security.CustomAuthenticationProvider"></bean>
     <bean id="customUserDetailsService" class="kim.spring.ej.security.CustomUserDetailsServiceImpl"></bean>
     <bean id="customAccessFailure" class="kim.spring.ej.security.CustomAccessFailureHandler"></bean>
-    <bean id="customLoginSuccess" class="kim.spring.ej.security.CustomLoginSuccessHandler"></bean>
      -->
+    <bean id="customLoginSuccess" class="kh.lclass.db1.common.CustomLoginSuccessHandler"></bean>
 </beans>
