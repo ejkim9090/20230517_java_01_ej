@@ -7,5 +7,77 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-5.7.xsd">
 
+	<security:http>
+		<!-- 대부분의 페이지를 permit 확인하는 경우 
+		isAnonymous() 또는 permitAll 페이지를 각각 지정해야함.
+		확인 테스트 : http://.../ej(image가 있는 url) 시 img 보이지 않음.
+		해결을 위해 resources 에 isAnonymous() 또는 permitAll 지정
+		error 등의 페이지 추가하기
+		-->
+		<!-- 일부 페이지를 permit 확인하는 경우 -->
+		<!--
+		1. http://localhost:8090/db1/board/insert - 진입가능
+		2. http://localhost:8090/db1/member/list -진입불가 -login페이지 보이지
+		 -->
+		<security:intercept-url pattern="/**" access="hasRole('R_M')" />
+		<security:form-login/>
+		
+		<security:logout logout-url="/user/logout" 
+							logout-success-url="/board/list"
+							invalidate-session="true"
+		/>
+	</security:http>
 
+  	<!-- 
+  	1. url pattern 확인을 위한 임시 로그인 성공 여부 확인 - 아래 name, password
+	
+	<security:authentication-manager>
+		<security:authentication-provider>
+        	<security:user-service>
+              <security:user name="member" password="{noop}member" authorities="ROLE_MEMBER" />
+              <security:user name="admin" password="{noop}admin" authorities="ROLE_MEMBER,ROLE_ADMIN" />
+            </security:user-service>
+		</security:authentication-provider>
+	</security:authentication-manager>
+	-->
+	<!-- 
+	2. DB 통해 로그인 성공 여부 확인 
+	참고(로그인) : users-by-username-query 생략시 select username,password,enabled from users where username = ? 
+	참고(ROLE) : authorities-by-username-query 생략시 select username,authority from authorities where username = ?
+     -->	
+	<security:authentication-manager>
+		<security:authentication-provider>
+			<!-- 
+        	<security:user-service>
+              <security:user name="member" password="{noop}member" authorities="ROLE_MEMBER" />
+              <security:user name="admin" password="{noop}admin" authorities="ROLE_MEMBER,ROLE_ADMIN" />
+            </security:user-service>
+			 -->
+            <security:password-encoder hash="bcrypt" />
+			<security:jdbc-user-service
+				data-source-ref="dataSource"
+				users-by-username-query="SELECT mid username, mpwd password, enabled FROM MEMBER WHERE mid=?"
+				authorities-by-username-query="SELECT mid username, authority as authority FROM MEMBER WHERE mid=?" 
+				/>
+		</security:authentication-provider>
+	</security:authentication-manager>
+     
+    <!-- 
+	3. Provider 이용. UserDetail 사용가능
+	<security:authentication-manager>
+		<security:authentication-provider ref="customAuthenticationProvider" />
+		<security:authentication-provider user-service-ref="customUserDetailsService">
+            <security:password-encoder hash="bcrypt" />
+		</security:authentication-provider>
+	</security:authentication-manager>
+	-->
+	
+	
+    <bean id="bCryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></bean>
+	<!-- 
+    <bean id="customAuthenticationProvider" class="kim.spring.ej.security.CustomAuthenticationProvider"></bean>
+    <bean id="customUserDetailsService" class="kim.spring.ej.security.CustomUserDetailsServiceImpl"></bean>
+    <bean id="customAccessFailure" class="kim.spring.ej.security.CustomAccessFailureHandler"></bean>
+    <bean id="customLoginSuccess" class="kim.spring.ej.security.CustomLoginSuccessHandler"></bean>
+     -->
 </beans>

@@ -171,7 +171,7 @@
 		    <scope>provided</scope>
 		</dependency>
 		
-		<!-- Spring Security -->
+		<!-- Spring Security 1 -->
 		<!-- spring-security-core -->
 		<dependency>
 		    <groupId>org.springframework.security</groupId>
@@ -190,8 +190,11 @@
 		    <artifactId>spring-security-config</artifactId>
 		    <version>${org.springframework.security-version}</version>
 		</dependency>
-		
-		
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>${org.springframework.security-version}</version>
+		</dependency>
 		
 						
 	</dependencies>

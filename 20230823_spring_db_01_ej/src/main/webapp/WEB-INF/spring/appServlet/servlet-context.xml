@@ -42,10 +42,13 @@
 	 -->
 		
 	<!-- Interceptor 인터셉터 -->
-	<!-- Interceptor 로그인 객체 생성 -->
+	<!-- Interceptor를 위한 로그인 객체(implements HandlerInterceptor)생성 -->
+	<!-- 
 	<beans:bean class="kh.lclass.db1.common.LoginInterceptor" id="loginInterceptor"/>
+	 -->
+	<!-- Interceptor 로그인 설정 -->
+	<!-- 
 	<interceptors>
-		<!-- Interceptor 로그인 설정 -->
 		<interceptor>
 			<mapping path="/**"/>
 			<exclude-mapping path="/resources/**"/>
@@ -57,5 +60,17 @@
 			<beans:ref bean="loginInterceptor"/>
 		</interceptor>		
 	</interceptors>
-	
+	 -->
+	 
+
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
 </beans:beans>
