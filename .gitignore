@@ -6,6 +6,8 @@ build/
 properties/
 *.properties
 Servers/
+target/
+.settings/
 
 # Log file
 *.log
@@ -17,7 +19,7 @@ Servers/
 .mtj.tmp/
 
 # Package Files #
-#*.jar
+*.jar
 *.war
 *.nar
 *.ear
